@@ -1,0 +1,18 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pytest = "*"
+
+[packages]
+django = "*"
+psycopg2-binary = "*"
+django-widget-tweaks = "*"
+django-extra-views = "*"
+django-crispy-forms = "*"
+pytest-django = "*"
+
+[requires]
+python_version = "3.7"
