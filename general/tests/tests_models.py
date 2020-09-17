@@ -216,7 +216,7 @@ class ForfaitModelTest(TestCase):
     def test_object_name_is_nom(self):
         forfait = Forfait.objects.get(nom='Forfait 1')
         expected_object_name = f'{forfait.nom}'
-        assert expected_object_name == str(forfait.nom)
+        assert expected_object_name == str(forfait)
 
 
 class ClientModelTest(TestCase):
@@ -224,7 +224,7 @@ class ClientModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         Client.objects.create(nom='Villard', prenom='Jean', adresse='13 rue de la paix', code_postal=75000,
-                              ville='Paris', telephone='0600112233', email='jean.villard@yahooo.com',
+                              commune='Paris', telephone='0600112233', email='jean.villard@yahooo.com',
                               societe_manege='Rambo')
 
     def test_nom_label(self):
@@ -245,7 +245,7 @@ class ClientModelTest(TestCase):
     def test_code_postal_label(self):
         client = Client.objects.get(id=1)
         field_label = client._meta.get_field('code_postal').verbose_name
-        assert field_label == 'code_postal'
+        assert field_label == 'code postal'
 
     def test_commune_label(self):
         client = Client.objects.get(id=1)
@@ -310,14 +310,25 @@ class ClientModelTest(TestCase):
     def test_nom_societe_manege_email_null_and_blank_true(self):
         raised = False
         try:
-            Client.objects.create(nom='Villard', prenom='Jean', adresse='13 rue de la paix', code_postal=75000,
-                                  ville='Paris', telephone='0600112233')
+            Client.objects.create(nom='Jean', prenom='Paul', adresse='13 rue de la paix', code_postal=75000,
+                                  commune='Paris', telephone='0600112233')
         except:
             raised = True
-        assert raised == True
+        assert raised == False
 
     def test_nom_and_societe_manege_unique_together(self):
         with self.assertRaises(IntegrityError):
             Client.objects.create(nom='Villard', prenom='Jean', adresse='13 rue de la paix', code_postal=75000,
-                                  ville='Paris', telephone='0600112233', email='jean.villard@yahooo.com',
+                                  commune='Paris', telephone='0600112233', email='jean.villard@yahooo.com',
                                   societe_manege='Rambo')
+
+    def test_object_name_is_societe_manege_if_true(self):
+        client = Client.objects.get(id=1)
+        expected_object_name = f'{client.societe_manege}'
+        assert expected_object_name == str(client)
+
+    def test_object_name_is_nom_prenom_if_not_societe_manege(self):
+        client = Client.objects.create(nom='Michel', prenom='René', adresse='13 rue de la paix', code_postal=75000,
+                                       commune='Paris', telephone='0600112233')
+        expected_object_name = f'{client.nom} {client.prenom}'
+        assert expected_object_name == str(client)

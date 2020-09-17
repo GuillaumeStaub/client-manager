@@ -62,4 +62,21 @@ class Forfait(models.Model):
 
 
 class Client(models.Model):
-    pass
+    nom = models.CharField(max_length=100)
+    prenom = models.CharField(max_length=60)
+    adresse = models.CharField(max_length=250)
+    code_postal = models.CharField(max_length=5)
+    commune = models.CharField(max_length=100)
+    societe_manege = models.CharField(max_length=150, blank=True, null=True, verbose_name="Société - Manège")
+    telephone = models.CharField(max_length=10)
+    email = models.EmailField(max_length=250, null=True, blank=True)
+
+    class Meta:
+        ordering = ['nom', 'prenom']
+        unique_together = (('nom', 'societe_manege'),)
+
+    def __str__(self):
+        if self.societe_manege:
+            return f"{self.societe_manege}"
+        else:
+            return f"{self.nom} {self.prenom}"
