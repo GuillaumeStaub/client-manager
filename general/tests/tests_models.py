@@ -212,11 +212,6 @@ class ForfaitModelTest(TestCase):
         decimal_places = forfait._meta.get_field('prix_ttc').decimal_places
         assert decimal_places == 2
 
-    def test_prix_ttc_default_value_is_prix_ht_and_taxe(self):
-        forfait = Forfait.objects.get(nom='Forfait 1')
-        default_value = forfait._meta.get_field('prix_ttc').default
-        assert default_value() == 17.00
-
     def test_object_name_is_nom(self):
         forfait = Forfait.objects.get(nom='Forfait 1')
         expected_object_name = f'{forfait.nom}'

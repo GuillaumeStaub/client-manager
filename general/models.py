@@ -50,4 +50,12 @@ class Saison(models.Model):
 
 
 class Forfait(models.Model):
-    pass
+    nom = models.CharField(max_length=100, primary_key=True)
+    description = models.TextField()
+    prix_ht = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Prix HT')
+    prix_ttc = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Prix TTC')
+    taxe = models.DecimalField(max_digits=4, decimal_places=2, default=20.00)
+    saison = models.ForeignKey(Saison, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return f"{self.nom}"
