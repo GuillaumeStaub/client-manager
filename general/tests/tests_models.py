@@ -1,11 +1,9 @@
 from django.test import TestCase
-from general.models import InfosTechniques, Saison, get_default_periode_name, get_default_interval
-import pytest
-import datetime
-from datetime import timedelta
+from general.models import InfosTechniques, Saison, get_default_periode_name, get_default_interval, Forfait
+from datetime import timedelta, datetime
 from freezegun import freeze_time
 
-FAKE_TIME = datetime.datetime(2020, 9, 16, 17, 5, 55)
+FAKE_TIME = datetime(2020, 9, 16, 17, 5, 55)
 FAKE_TIME_INTERVAL = FAKE_TIME + timedelta(days=23)
 
 
@@ -65,7 +63,7 @@ class InfosTechniquesModelTest(TestCase):
     def test_object_name_is_num_armoire_dash_emplacement(self):
         infos_techniques = InfosTechniques.objects.get(id=1)
         expected_object_name = f'{infos_techniques.num_armoire} - {infos_techniques.emplacement}'
-        expected_object_name == str(infos_techniques)
+        assert expected_object_name == str(infos_techniques)
 
 
 class SaisonModelTest(TestCase):
@@ -107,12 +105,11 @@ class SaisonModelTest(TestCase):
         max_length = saison._meta.get_field('nom').max_length
         assert max_length == 50
 
-    @freeze_time(datetime.datetime(2020, 10, 16, 17, 5, 55))
+    @freeze_time(datetime(2020, 10, 16, 17, 5, 55))
     def test_nom_format_default_value(self):
         saison = Saison.objects.create()
         default_value = saison._meta.get_field('nom').default
         assert default_value() == '2020 - Octobre'
-
 
     def test_date_debut_date_now_is_default_value(self):
         with freeze_time(FAKE_TIME) as frozen_datetime:
@@ -139,4 +136,88 @@ class SaisonModelTest(TestCase):
     def test_object_name_is_nom(self):
         saison = Saison.objects.get(nom='2020 - Septembre')
         expected_object_name = f'{saison.nom}'
-        expected_object_name == str(saison.nom)
+        assert expected_object_name == str(saison.nom)
+
+
+class ForfaitModelTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        saison = Saison.objects.create(nom='2020 - Septembre')
+        Forfait.objects.create(nom='Forfait 1', description='Puissance inférieure à 18kVA', prix_ht=14.17, taxe=20.00,
+                               prix_ttc=17.00, saison=saison)
+
+    def test_nom_label(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        field_label = forfait._meta.get_field('nom').verbose_name
+        assert field_label == 'nom'
+
+    def test_description_label(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        field_label = forfait._meta.get_field('description').verbose_name
+        assert field_label == 'description'
+
+    def test_prix_ht_label(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        field_label = forfait._meta.get_field('prix_ht').verbose_name
+        assert field_label == 'Prix HT'
+
+    def test_taxe_label(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        field_label = forfait._meta.get_field('taxe').verbose_name
+        assert field_label == 'taxe'
+
+    def test_prix_ttc_label(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        field_label = forfait._meta.get_field('prix_ttc').verbose_name
+        assert field_label == 'Prix TTC'
+
+    def test_nom_length(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        max_length = forfait._meta.get_field('nom').max_length
+        assert max_length == 100
+
+    def test_prix_ht_max_digits(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        max_digits = forfait._meta.get_field('prix_ht').max_digits
+        assert max_digits == 6
+
+    def test_prix_ht_decimal_places(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        decimal_places = forfait._meta.get_field('prix_ht').decimal_places
+        assert decimal_places == 2
+
+    def test_taxe_max_digits(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        max_digits = forfait._meta.get_field('taxe').max_digits
+        assert max_digits == 4
+
+    def test_taxe_decimal_places(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        decimal_places = forfait._meta.get_field('taxe').decimal_places
+        assert decimal_places == 2
+
+    def test_taxe_default_value_is_20(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        default_value = forfait._meta.get_field('taxe').default
+        assert default_value == 20.00
+
+    def test_prix_ttc_max_digits(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        max_digits = forfait._meta.get_field('prix_ttc').max_digits
+        assert max_digits == 7
+
+    def test_prix_ttc_decimal_places(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        decimal_places = forfait._meta.get_field('prix_ttc').decimal_places
+        assert decimal_places == 2
+
+    def test_prix_ttc_default_value_is_prix_ht_and_taxe(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        default_value = forfait._meta.get_field('prix_ttc').default
+        assert default_value() == 17.00
+
+    def test_object_name_is_nom(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        expected_object_name = f'{forfait.nom}'
+        assert expected_object_name == str(forfait.nom)
