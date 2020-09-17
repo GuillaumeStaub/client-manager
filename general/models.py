@@ -59,3 +59,7 @@ class Forfait(models.Model):
 
     def __str__(self):
         return f"{self.nom}"
+
+
+class Client(models.Model):
+    pass

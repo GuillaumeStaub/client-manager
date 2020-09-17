@@ -1,7 +1,8 @@
 from django.test import TestCase
-from general.models import InfosTechniques, Saison, get_default_periode_name, get_default_interval, Forfait
+from general.models import InfosTechniques, Saison, get_default_periode_name, get_default_interval, Forfait, Client
 from datetime import timedelta, datetime
 from freezegun import freeze_time
+from django.db import IntegrityError
 
 FAKE_TIME = datetime(2020, 9, 16, 17, 5, 55)
 FAKE_TIME_INTERVAL = FAKE_TIME + timedelta(days=23)
@@ -216,3 +217,107 @@ class ForfaitModelTest(TestCase):
         forfait = Forfait.objects.get(nom='Forfait 1')
         expected_object_name = f'{forfait.nom}'
         assert expected_object_name == str(forfait.nom)
+
+
+class ClientModelTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        Client.objects.create(nom='Villard', prenom='Jean', adresse='13 rue de la paix', code_postal=75000,
+                              ville='Paris', telephone='0600112233', email='jean.villard@yahooo.com',
+                              societe_manege='Rambo')
+
+    def test_nom_label(self):
+        client = Client.objects.get(id=1)
+        field_label = client._meta.get_field('nom').verbose_name
+        assert field_label == 'nom'
+
+    def test_prenom_label(self):
+        client = Client.objects.get(id=1)
+        field_label = client._meta.get_field('prenom').verbose_name
+        assert field_label == 'prenom'
+
+    def test_adresse_label(self):
+        client = Client.objects.get(id=1)
+        field_label = client._meta.get_field('adresse').verbose_name
+        assert field_label == 'adresse'
+
+    def test_code_postal_label(self):
+        client = Client.objects.get(id=1)
+        field_label = client._meta.get_field('code_postal').verbose_name
+        assert field_label == 'code_postal'
+
+    def test_commune_label(self):
+        client = Client.objects.get(id=1)
+        field_label = client._meta.get_field('commune').verbose_name
+        assert field_label == 'commune'
+
+    def test_societe_manege_label(self):
+        client = Client.objects.get(id=1)
+        field_label = client._meta.get_field('societe_manege').verbose_name
+        assert field_label == 'Société - Manège'
+
+    def test_telephone_label(self):
+        client = Client.objects.get(id=1)
+        field_label = client._meta.get_field('telephone').verbose_name
+        assert field_label == 'telephone'
+
+    def test_email_label(self):
+        client = Client.objects.get(id=1)
+        field_label = client._meta.get_field('email').verbose_name
+        assert field_label == 'email'
+
+    def test_nom_length(self):
+        client = Client.objects.get(id=1)
+        max_length = client._meta.get_field('nom').max_length
+        assert max_length == 100
+
+    def test_prenom_length(self):
+        client = Client.objects.get(id=1)
+        max_length = client._meta.get_field('prenom').max_length
+        assert max_length == 60
+
+    def test_adresse_length(self):
+        client = Client.objects.get(id=1)
+        max_length = client._meta.get_field('adresse').max_length
+        assert max_length == 250
+
+    def test_code_postal_length(self):
+        client = Client.objects.get(id=1)
+        max_length = client._meta.get_field('code_postal').max_length
+        assert max_length == 5
+
+    def test_commune_length(self):
+        client = Client.objects.get(id=1)
+        max_length = client._meta.get_field('commune').max_length
+        assert max_length == 100
+
+    def test_societe_manege_length(self):
+        client = Client.objects.get(id=1)
+        max_length = client._meta.get_field('societe_manege').max_length
+        assert max_length == 150
+
+    def test_telephone_length(self):
+        client = Client.objects.get(id=1)
+        max_length = client._meta.get_field('telephone').max_length
+        assert max_length == 10
+
+    def test_email_length(self):
+        client = Client.objects.get(id=1)
+        max_length = client._meta.get_field('email').max_length
+        assert max_length == 250
+
+    def test_nom_societe_manege_email_null_and_blank_true(self):
+        raised = False
+        try:
+            Client.objects.create(nom='Villard', prenom='Jean', adresse='13 rue de la paix', code_postal=75000,
+                                  ville='Paris', telephone='0600112233')
+        except:
+            raised = True
+        assert raised == True
+
+    def test_nom_and_societe_manege_unique_together(self):
+        with self.assertRaises(IntegrityError):
+            Client.objects.create(nom='Villard', prenom='Jean', adresse='13 rue de la paix', code_postal=75000,
+                                  ville='Paris', telephone='0600112233', email='jean.villard@yahooo.com',
+                                  societe_manege='Rambo')
