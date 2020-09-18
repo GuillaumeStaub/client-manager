@@ -1,5 +1,6 @@
 from django.test import TestCase
-from general.models import InfosTechniques, Saison, get_default_periode_name, get_default_interval, Forfait, Client
+from general.models import InfosTechniques, Saison, get_default_periode_name, get_default_interval, Forfait, Client, \
+    Commande
 from datetime import timedelta, datetime
 from freezegun import freeze_time
 from django.db import IntegrityError
@@ -332,3 +333,97 @@ class ClientModelTest(TestCase):
                                        commune='Paris', telephone='0600112233')
         expected_object_name = f'{client.nom} {client.prenom}'
         assert expected_object_name == str(client)
+
+
+class CommandeModelTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        infos_techniques = InfosTechniques.objects.create(matricule_compteur='673', num_armoire='CH01')
+        saison = Saison.objects.create(nom='2020 - Septembre')
+        forfait = Forfait.objects.create(nom='Forfait 1', description='Puissance inférieure à 18kVA', prix_ht=14.17,
+                                         taxe=20.00,
+                                         prix_ttc=17.00, saison=saison)
+        client = Client.objects.create(nom='Villard', prenom='Jean', adresse='13 rue de la paix', code_postal=75000,
+                                       commune='Paris', telephone='0600112233', email='jean.villard@yahooo.com',
+                                       societe_manege='Rambo')
+        Commande.objects.create(saison=saison, puissance=18, forfait=forfait, nb_jours=23, client=client,
+                                infos_techniques=infos_techniques)
+
+    def test_saison_label(self):
+        commande = Commande.objects.get(id=1)
+        field_label = commande._meta.get_field('saison').verbose_name
+        assert field_label == 'saison'
+
+    def test_puissance_label(self):
+        commande = Commande.objects.get(id=1)
+        field_label = commande._meta.get_field('puissance').verbose_name
+        assert field_label == 'puissance'
+
+    def test_forfait_label(self):
+        commande = Commande.objects.get(id=1)
+        field_label = commande._meta.get_field('forfait').verbose_name
+        assert field_label == 'forfait'
+
+    def test_nb_jours_label(self):
+        commande = Commande.objects.get(id=1)
+        field_label = commande._meta.get_field('nb_jours').verbose_name
+        assert field_label == 'Nombre de jours'
+
+    def test_infos_techniques_label(self):
+        commande = Commande.objects.get(id=1)
+        field_label = commande._meta.get_field('infos_techniques').verbose_name
+        assert field_label == 'infos techniques'
+
+    def test_total_ht_label(self):
+        commande = Commande.objects.get(id=1)
+        field_label = commande._meta.get_field('total_ht').verbose_name
+        assert field_label == 'total ht'
+
+    def test_total_ttc_label(self):
+        commande = Commande.objects.get(id=1)
+        field_label = commande._meta.get_field('total_ttc').verbose_name
+        assert field_label == 'total ttc'
+
+    def test_total_ht_digits(self):
+        commande = Commande.objects.get(id=1)
+        max_digits = commande._meta.get_field('total_ht').max_digits
+        assert max_digits == 6
+
+    def test_total_ht_decimal(self):
+        commande = Commande.objects.get(id=1)
+        decimal_places = commande._meta.get_field('total_ht').decimal_places
+        assert decimal_places == 2
+
+    def test_total_ttc_digits(self):
+        commande = Commande.objects.get(id=1)
+        max_digits = commande._meta.get_field('total_ttc').max_digits
+        assert max_digits == 6
+
+    def test_total_ttc_decimal(self):
+        commande = Commande.objects.get(id=1)
+        decimal_places = commande._meta.get_field('total_ttc').decimal_places
+        assert decimal_places == 2
+
+    def test_total_ht_and_total_ttc_correctly_save(self):
+        commande = Commande.objects.get(id=1)
+        assert commande.total_ht == commande.forfait.prix_ht * commande.nb_jours
+        assert commande.total_ttc == round((commande.forfait.prix_ht*(1+commande.forfait.taxe/100))*commande.nb_jours, 2)
+
+    def test_object_name_is_saison_dash_societe_manege_if_true(self):
+        commande = Commande.objects.get(id=1)
+        expected_object_name = f'{commande.saison} - {commande.client.societe_manege}'
+        assert expected_object_name == str(commande)
+
+    def test_object_name_is_saison_dash_client_nom_client_prenom(self):
+        infos_techniques = InfosTechniques.objects.create(matricule_compteur='673', num_armoire='CH01')
+        saison = Saison.objects.create(nom='2020 - Septembre')
+        forfait = Forfait.objects.create(nom='Forfait 1', description='Puissance inférieure à 18kVA', prix_ht=14.17,
+                                         taxe=20.00,
+                                         prix_ttc=17.00, saison=saison)
+        client = Client.objects.create(nom='Rodriguez', prenom='Jean', adresse='13 rue de la paix', code_postal=75000,
+                                       commune='Paris', telephone='0600112233', email='jean.villard@yahooo.com',)
+        commande = Commande.objects.create(saison=saison, puissance=18, forfait=forfait, nb_jours=23, client=client,
+                                           infos_techniques=infos_techniques, total_ht=325.91, total_ttc=391.00)
+        expected_object_name = f'{commande.saison} - {commande.client.nom} {commande.client.prenom}'
+        assert expected_object_name == str(commande)

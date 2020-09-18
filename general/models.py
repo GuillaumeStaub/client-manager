@@ -80,3 +80,7 @@ class Client(models.Model):
             return f"{self.societe_manege}"
         else:
             return f"{self.nom} {self.prenom}"
+
+
+class Commande(models.Model):
+    pass
