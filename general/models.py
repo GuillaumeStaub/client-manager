@@ -85,6 +85,8 @@ class Client(models.Model):
         else:
             return f"{self.nom} {self.prenom}"
 
+class Evenement(models.Model):
+    pass
 
 class Commande(models.Model):
     saison = models.ForeignKey(Saison, on_delete=models.CASCADE)

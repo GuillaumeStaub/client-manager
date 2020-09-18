@@ -1,6 +1,6 @@
 from django.test import TestCase
 from general.models import InfosTechniques, Saison, get_default_periode_name, get_default_interval, Forfait, Client, \
-    Commande
+    Commande, Evenement
 from datetime import timedelta, datetime
 from freezegun import freeze_time
 from django.db import IntegrityError
@@ -337,6 +337,53 @@ class ClientModelTest(TestCase):
                                        commune='Paris', telephone='0600112233')
         expected_object_name = f'{client.nom} {client.prenom}'
         assert expected_object_name == str(client)
+
+
+class EvenementModelTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        Evenement.objects.create(nom='Foire aux plaisirs', ville='Bordeaux', type='Fête foraine')
+
+    def test_nom_label(self):
+        event = Evenement.objects.get(id=1)
+        field_label = event._meta.get_field('nom').verbose_name
+        assert field_label == 'nom'
+
+    def test_ville_label(self):
+        event = Evenement.objects.get(id=1)
+        field_label = event._meta.get_field('ville').verbose_name
+        assert field_label == 'ville'
+
+    def test_type_label(self):
+        event = Evenement.objects.get(id=1)
+        field_label = event._meta.get_field('type').verbose_name
+        assert field_label == "Type d'évènement"
+
+    def test_nom_length(self):
+        event = Evenement.objects.get(id=1)
+        max_length = event._meta.get_field('nom').max_length
+        assert max_length == 250
+
+    def test_ville_length(self):
+        event = Evenement.objects.get(id=1)
+        max_length = event._meta.get_field('ville').max_length
+        assert max_length == 100
+
+    def test_type_length(self):
+        event = Evenement.objects.get(id=1)
+        max_length = event._meta.get_field('type').max_length
+        assert max_length == 50
+
+    def test_object_name_is_nom_ville(self):
+        event = Forfait.objects.get(id=1)
+        expected_object_name = f'{event.nom} à {event.ville}'
+        assert expected_object_name == str(event)
+
+    def test_object_verbose_name_plural(self):
+        event = Evenement.objects.get(id=1)
+        verbose_name_plural = event._meta.verbose_name_plural
+        assert verbose_name_plural == "Evènements"
 
 
 class CommandeModelTest(TestCase):
