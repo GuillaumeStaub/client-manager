@@ -85,13 +85,30 @@ class Client(models.Model):
         else:
             return f"{self.nom} {self.prenom}"
 
+
 class Evenement(models.Model):
-    pass
+    TYPE_CHOICES = (
+        (1, "Fête foraine"),
+        (2, "Brocante"),
+        (3, "Cirque"),
+        (4, "Autre")
+    )
+    nom = models.CharField(max_length=250)
+    ville = models.CharField(max_length=100)
+    type = models.CharField(max_length=50, choices=TYPE_CHOICES, verbose_name="Type d'évènement")
+
+    class Meta:
+        verbose_name = "Evènement"
+        verbose_name_plural = "Evènements"
+
+    def __str__(self):
+      return f"{self.nom} à {self.ville}"
 
 class Commande(models.Model):
-    saison = models.ForeignKey(Saison, on_delete=models.CASCADE)
+    saison = models.ForeignKey(Saison, on_delete=models.PROTECT)
+    evenement = models.ForeignKey(Evenement, on_delete=models.PROTECT)
     puissance = models.IntegerField(default=0, help_text='Puissance en KvA', )
-    forfait = models.ForeignKey(Forfait, on_delete=models.CASCADE)
+    forfait = models.ForeignKey(Forfait, on_delete=models.PROTECT)
     nb_jours = models.IntegerField(default=23, verbose_name='Nombre de jours')
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='client')
     infos_techniques = models.ForeignKey(InfosTechniques, null=True, on_delete=models.PROTECT,

@@ -376,7 +376,7 @@ class EvenementModelTest(TestCase):
         assert max_length == 50
 
     def test_object_name_is_nom_ville(self):
-        event = Forfait.objects.get(id=1)
+        event = Evenement.objects.get(id=1)
         expected_object_name = f'{event.nom} à {event.ville}'
         assert expected_object_name == str(event)
 
@@ -398,8 +398,9 @@ class CommandeModelTest(TestCase):
         client = Client.objects.create(nom='Villard', prenom='Jean', adresse='13 rue de la paix', code_postal=75000,
                                        commune='Paris', telephone='0600112233', email='jean.villard@yahooo.com',
                                        societe_manege='Rambo')
+        event = Evenement.objects.create(nom='Foire aux plaisirs', ville='Bordeaux', type='Fête foraine')
         Commande.objects.create(saison=saison, puissance=18, forfait=forfait, nb_jours=23, client=client,
-                                infos_techniques=infos_techniques)
+                                infos_techniques=infos_techniques, evenement=event)
 
     def test_saison_label(self):
         commande = Commande.objects.get(id=1)
@@ -505,7 +506,8 @@ class CommandeModelTest(TestCase):
                                          prix_ttc=17.00, saison=saison)
         client = Client.objects.create(nom='Rodriguez', prenom='Jean', adresse='13 rue de la paix', code_postal=75000,
                                        commune='Paris', telephone='0600112233', email='jean.villard@yahooo.com', )
+        event = Evenement.objects.create(nom='Brocante des Quinquonces', ville='Bordeaux', type='Brocante')
         commande = Commande.objects.create(saison=saison, puissance=18, forfait=forfait, nb_jours=23, client=client,
-                                           infos_techniques=infos_techniques, total_ht=325.91, total_ttc=391.00)
+                                           infos_techniques=infos_techniques, total_ht=325.91, total_ttc=391.00, evenement=event)
         expected_object_name = f'{commande.saison} - {commande.client.nom} {commande.client.prenom}'
         assert expected_object_name == str(commande)
