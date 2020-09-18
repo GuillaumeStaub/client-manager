@@ -147,7 +147,7 @@ class ForfaitModelTest(TestCase):
     def setUpTestData(cls):
         saison = Saison.objects.create(nom='2020 - Septembre')
         Forfait.objects.create(nom='Forfait 1', description='Puissance inférieure à 18kVA', prix_ht=14.17, taxe=20.00,
-                               prix_ttc=17.00, saison=saison)
+                               saison=saison)
 
     def test_nom_label(self):
         forfait = Forfait.objects.get(nom='Forfait 1')
@@ -218,6 +218,10 @@ class ForfaitModelTest(TestCase):
         forfait = Forfait.objects.get(nom='Forfait 1')
         expected_object_name = f'{forfait.nom}'
         assert expected_object_name == str(forfait)
+
+    def test_prix_ttc_correctly_save(self):
+        forfait = Forfait.objects.get(nom='Forfait 1')
+        assert forfait.prix_ttc == round(forfait.prix_ht * (1 + forfait.taxe / 100), 2)
 
 
 class ClientModelTest(TestCase):
@@ -373,7 +377,7 @@ class CommandeModelTest(TestCase):
     def test_infos_techniques_label(self):
         commande = Commande.objects.get(id=1)
         field_label = commande._meta.get_field('infos_techniques').verbose_name
-        assert field_label == 'infos techniques'
+        assert field_label == 'Informations techniques'
 
     def test_total_ht_label(self):
         commande = Commande.objects.get(id=1)
@@ -384,6 +388,11 @@ class CommandeModelTest(TestCase):
         commande = Commande.objects.get(id=1)
         field_label = commande._meta.get_field('total_ttc').verbose_name
         assert field_label == 'total ttc'
+
+    def test_payee_label(self):
+        commande = Commande.objects.get(id=1)
+        field_label = commande._meta.get_field('payee').verbose_name
+        assert field_label == 'Commade payée'
 
     def test_total_ht_digits(self):
         commande = Commande.objects.get(id=1)
@@ -407,22 +416,48 @@ class CommandeModelTest(TestCase):
 
     def test_total_ht_and_total_ttc_correctly_save(self):
         commande = Commande.objects.get(id=1)
-        assert commande.total_ht == commande.forfait.prix_ht * commande.nb_jours
-        assert commande.total_ttc == round((commande.forfait.prix_ht*(1+commande.forfait.taxe/100))*commande.nb_jours, 2)
+        assert commande.total_ht == round(commande.forfait.prix_ht * commande.nb_jours, 2)
+        assert commande.total_ttc == round(
+            (commande.forfait.prix_ht * (1 + commande.forfait.taxe / 100)) * commande.nb_jours, 2)
 
     def test_object_name_is_saison_dash_societe_manege_if_true(self):
         commande = Commande.objects.get(id=1)
         expected_object_name = f'{commande.saison} - {commande.client.societe_manege}'
         assert expected_object_name == str(commande)
 
+    def test_puissance_default_value_is_0(self):
+        commande = Commande.objects.get(id=1)
+        default_value = commande._meta.get_field('puissance').default
+        assert default_value == 0
+
+    def test_nb_jours_default_value_is_23(self):
+        commande = Commande.objects.get(id=1)
+        default_value = commande._meta.get_field('nb_jours').default
+        assert default_value == 23
+
+    def test_total_ht_default_value_is_0(self):
+        commande = Commande.objects.get(id=1)
+        default_value = commande._meta.get_field('total_ht').default
+        assert default_value == 0
+
+    def test_total_ttc_default_value_is_0(self):
+        commande = Commande.objects.get(id=1)
+        default_value = commande._meta.get_field('total_ttc').default
+        assert default_value == 0
+
+    def test_payee_default_value_is_false(self):
+        commande = Commande.objects.get(id=1)
+        default_value = commande._meta.get_field('payee').default
+        assert default_value == False
+
     def test_object_name_is_saison_dash_client_nom_client_prenom(self):
-        infos_techniques = InfosTechniques.objects.create(matricule_compteur='673', num_armoire='CH01')
-        saison = Saison.objects.create(nom='2020 - Septembre')
-        forfait = Forfait.objects.create(nom='Forfait 1', description='Puissance inférieure à 18kVA', prix_ht=14.17,
+        infos_techniques = InfosTechniques.objects.create(matricule_compteur='674', num_armoire='CH02')
+        saison = Saison.objects.create(nom='2020 - Octobre')
+        forfait = Forfait.objects.create(nom='Forfait 2', description='Puissance inférieure à 18kVA', prix_ht=14.17,
                                          taxe=20.00,
                                          prix_ttc=17.00, saison=saison)
         client = Client.objects.create(nom='Rodriguez', prenom='Jean', adresse='13 rue de la paix', code_postal=75000,
-                                       commune='Paris', telephone='0600112233', email='jean.villard@yahooo.com',)
+                                       commune='Paris', telephone='0600112233', email='jean.villard@yahooo.com', )
         commande = Commande.objects.create(saison=saison, puissance=18, forfait=forfait, nb_jours=23, client=client,
                                            infos_techniques=infos_techniques, total_ht=325.91, total_ttc=391.00)
         expected_object_name = f'{commande.saison} - {commande.client.nom} {commande.client.prenom}'

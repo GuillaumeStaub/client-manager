@@ -57,6 +57,10 @@ class Forfait(models.Model):
     taxe = models.DecimalField(max_digits=4, decimal_places=2, default=20.00)
     saison = models.ForeignKey(Saison, on_delete=models.PROTECT)
 
+    def save(self, *args, **kwarg):
+        self.prix_ttc = round(self.prix_ht * (1 + self.taxe / 100), 2)
+        super(Forfait, self).save(*args, **kwarg)
+
     def __str__(self):
         return f"{self.nom}"
 
@@ -83,4 +87,24 @@ class Client(models.Model):
 
 
 class Commande(models.Model):
-    pass
+    saison = models.ForeignKey(Saison, on_delete=models.CASCADE)
+    puissance = models.IntegerField(default=0, help_text='Puissance en KvA', )
+    forfait = models.ForeignKey(Forfait, on_delete=models.CASCADE)
+    nb_jours = models.IntegerField(default=23, verbose_name='Nombre de jours')
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='client')
+    infos_techniques = models.ForeignKey(InfosTechniques, null=True, on_delete=models.PROTECT,
+                                         verbose_name="Informations techniques")
+    total_ht = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
+    total_ttc = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
+    payee = models.BooleanField(default=False, verbose_name='Commade payée')
+
+    def save(self, *args, **kwarg):
+        self.total_ht = round(self.forfait.prix_ht * self.nb_jours, 2)
+        self.total_ttc = round(self.forfait.prix_ht * (1 + self.forfait.taxe / 100) * self.nb_jours, 2)
+        super(Commande, self).save(*args, **kwarg)
+
+    def __str__(self):
+        if self.client.societe_manege:
+            return f"{self.saison} - {self.client.societe_manege}"
+        else:
+            return f"{self.saison} - {self.client.nom} {self.client.prenom}"
