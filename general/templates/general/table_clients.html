@@ -1,0 +1,82 @@
+
+<table class = 'table table-hover mx-auto'>
+    <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            {% for field in field_names %}
+            <th scope="col">{{ field }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for client in clients %}
+        <tr>
+            <td>
+
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete"><i class="fas fa-trash-alt text-white"></i></button>
+            </td>
+            <td>
+                <a class="btn btn-primary " href=""><i class=" fas fa-pencil-alt text-white" ></i></a>
+            </td>
+              <td>{{ client.nom }}</td>
+              <td>{{ client.prenom }}</td>
+              <td >{{ client.telephone }}</td>
+              <td>{{ client.ville}}</td>
+        </tr>
+        <div class="modal fade" id="confirmDelete">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Suppression</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Êtes vous sûr de vouloir supprimer ce client ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <form action="" method="post">
+                                    {% csrf_token %}
+                                <button class="btn btn-primary " type="submit">Ok</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </tbody>
+
+
+</table>
+{% if is_paginated %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item {% if not page_obj.has_previous %}
+           disabled {% endif %} ">
+                <a class="page-link" href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% endif %}" aria-label="Previous">
+
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+
+            {% for foo in paginator.page_range %}
+                <li class="page-item {% if foo == page_obj.number %}active
+                {% endif %} "><a class="page-link" href="?page={{ foo }}">{{ foo }}</a></li>
+            {% endfor %}
+
+
+
+            <li class="page-item {% if not page_obj.has_next %}
+           disabled {% endif %}">
+                <a class="page-link" href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% endif %}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+{% endif %}

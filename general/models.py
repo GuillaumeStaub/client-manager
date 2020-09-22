@@ -22,6 +22,10 @@ def get_default_interval():
 
 
 class InfosTechniques(models.Model):
+    """
+    This model represents the technical information of the order
+    such as the counter number or the location occupied by the customer.
+    """
     matricule_compteur = models.CharField(max_length=3, null=True, blank=True)
     num_armoire = models.CharField(max_length=5, verbose_name="numéro armoire")
     emplacement = models.CharField(max_length=2, default=0)
@@ -36,6 +40,9 @@ class InfosTechniques(models.Model):
 
 
 class Saison(models.Model):
+    """
+    This model represents the time of year during which the order was executed.
+    """
     nom = models.CharField(max_length=50, default=get_default_periode_name, primary_key=True)
     date_debut = models.DateField(default=datetime.now, verbose_name='Début de la saison')
     date_fin = models.DateField(default=get_default_interval, verbose_name='Fin de la saison')
@@ -50,6 +57,9 @@ class Saison(models.Model):
 
 
 class Forfait(models.Model):
+    """
+    This model represents the packages offered by Enedis during temporary events
+    """
     nom = models.CharField(max_length=100, primary_key=True)
     description = models.TextField()
     prix_ht = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Prix HT')
@@ -66,6 +76,9 @@ class Forfait(models.Model):
 
 
 class Client(models.Model):
+    """
+    This model represents customers and all their personal information.
+    """
     nom = models.CharField(max_length=100)
     prenom = models.CharField(max_length=60)
     adresse = models.CharField(max_length=250)
@@ -87,6 +100,9 @@ class Client(models.Model):
 
 
 class Evenement(models.Model):
+    """
+    This model represents all temporary events.
+    """
     TYPE_CHOICES = (
         (1, "Fête foraine"),
         (2, "Brocante"),
@@ -102,9 +118,14 @@ class Evenement(models.Model):
         verbose_name_plural = "Evènements"
 
     def __str__(self):
-      return f"{self.nom} à {self.ville}"
+        return f"{self.nom} à {self.ville}"
+
 
 class Commande(models.Model):
+    """
+    The core of the application, the command gathers all the necessary information such as the subscribed power,
+     number of days of presence. It is linked to other models by foreign keys.
+    """
     saison = models.ForeignKey(Saison, on_delete=models.PROTECT)
     evenement = models.ForeignKey(Evenement, on_delete=models.PROTECT)
     puissance = models.IntegerField(default=0, help_text='Puissance en KvA', )
