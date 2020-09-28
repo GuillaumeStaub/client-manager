@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field%}
+{% load static %}
+
+{% block title %}PNT - Création client{% endblock %}
+{% block content %}
+    <div class='container mt-5 '>
+        <div class="row">
+           <h2 class="col-md-12 mx-auto text-center">Création d'un nouveau client</h2>
+        </div>
+        <div class='row my-4'>
+            <div class='col-12  mx-auto'>
+                <form id="form_create" method="post">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            {{form.nom|as_crispy_field}}
+
+                        </div>
+                        <div class="form-group col-6">
+                            {{form.prenom|as_crispy_field}}
+
+                        </div>
+
+                    </div>
+                        {{ form.adresse|as_crispy_field }}
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            {{form.code_postal|as_crispy_field}}
+
+                        </div>
+                        <div class="form-group col-8">
+                            {{form.commune|as_crispy_field}}
+
+                        </div>
+
+
+                    </div>
+                    {{form.societe_manege|as_crispy_field}}
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            {{form.telephone|as_crispy_field}}
+
+                        </div>
+                        <div class="form-group col-8">
+                            {{form.email|as_crispy_field}}
+
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-3 mt-0 bd-highlight justify-content-end ">
+                        <div class=" mr-2 align-items-end">
+                            <a class="btn btn-secondary" href="{% url 'home' %}">Retour</a>
+                        </div>
+                        <div class=" ml-2 align-items-end">
+                            <button class="btn btn-primary " type='submit'>Créer client</button>
+                        </div>
+                    </div>
+
+                    <h4>Commandes <span class="btn btn-primary" data-toggle="" href="#CommandesCollapse" id="buttonCollapse"><i class="fas fa-plus"></i></span></h4>
+
+                    <hr>
+                    <div class="hidden" id="CommandesCollapse" style="display: none">
+
+                        {% for formset in inlines %}
+                            {{ formset.management_form }}
+                            {% for form in formset %}
+                            <div id="commande_client{{ forloop.counter0 }}">
+                                <h5>Commande #{{ forloop.counter }}</h5>
+                                <h6>Informations générales</h6>
+                                 <hr>
+                                <div class="form-row">
+                                    <div class="form-group col-4">
+                                        {{ form.saison|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group col-4">
+                                        {{ form.evenement|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group col-4">
+                                        {{ form.nb_jours|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-4">
+                                        {{ form.puissance|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group col-4">
+                                        {{ form.infos_techniques|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <h6>Forfait</h6>
+                                <hr>
+                                <div class="form-row">
+
+                                    <div class="form-group col-4">
+                                        {{ form.forfait|as_crispy_field }}
+
+                                    </div>
+
+                                    <div class="form-group col-4">
+                                        <label for="prix_HT{{ forloop.counter0 }}" >Prix HT</label>
+                                        <div class="input-group mb-3">
+                                               <input type="text" class="form-control" id="prix_HT{{ forloop.counter0 }}" placeholder="0,00" disabled>
+                                              <div class="input-group-append">
+                                                <span class="input-group-text">€</span>
+                                              </div>
+                                        </div>
+
+
+
+                                    </div>
+
+                                    <div class="form-group col-4">
+                                        <label for="taxe{{ forloop.counter0 }}" >TVA</label>
+                                        <div class="input-group mb-3">
+
+                                               <input type="text" class="form-control" id="taxe{{ forloop.counter0 }}" placeholder="20.00" disabled>
+                                              <div class="input-group-append">
+                                                <span class="input-group-text">%</span>
+                                              </div>
+                                        </div>
+
+
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-row">
+                                      <div class="form-group col-4">
+                                        {% crispy_addon form.total_ht  append="€" %}
+                                    </div>
+                                     <div class="form-group col-4">
+                                        {% crispy_addon form.total_ttc  append="€" %}
+                                    </div>
+                                    <div class="form-group col-4 align-self-end">
+                                        {{ form.payee|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                        {% endfor %}
+
+
+
+
+                      <div class="d-flex mb-3 mt-0 bd-highlight justify-content-end ">
+                        <div class=" mr-2 align-items-end">
+                            <a class="btn btn-secondary" href="{% url 'home' %}">Retour</a>
+                        </div>
+                        <div class=" ml-2 align-items-end">
+                            <button class="btn btn-primary" id="buttonCreate" type='submit'>Créer client</button>
+                        </div>
+                    </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block linkScript %}
+<script src="{% static 'general/js/scriptGeneral.js' %}"></script>
+{% endblock %}

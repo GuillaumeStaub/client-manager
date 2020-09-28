@@ -104,10 +104,10 @@ class Evenement(models.Model):
     This model represents all temporary events.
     """
     TYPE_CHOICES = (
-        (1, "Fête foraine"),
-        (2, "Brocante"),
-        (3, "Cirque"),
-        (4, "Autre")
+        ("FF", "Fête foraine"),
+        ("BR", "Brocante"),
+        ("CR", "Cirque"),
+        ("AU", "Autre")
     )
     nom = models.CharField(max_length=250)
     ville = models.CharField(max_length=100)
