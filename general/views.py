@@ -3,7 +3,8 @@ from .models import Client, Commande
 from django.db.models import Sum
 from django.views.generic import ListView
 from django.urls import reverse_lazy
-from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSetFactory, NamedFormsetsMixin
+from django.views.generic import DeleteView
+from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSetFactory
 
 
 class HomeView(ListView):
@@ -34,7 +35,7 @@ class CommandeInline(InlineFormSetFactory):
     factory_kwargs = {'extra': 2, 'can_order': False, 'can_delete': False}
 
 
-class CreateClientView(NamedFormsetsMixin, t):
+class CreateClientView(CreateWithInlinesView):
     """
     This generic view allows you to create a new customer and add new orders to it.
     """
@@ -43,3 +44,11 @@ class CreateClientView(NamedFormsetsMixin, t):
     inlines = [CommandeInline, ]
     template_name = 'general/create_client.html'
     success_url = reverse_lazy('home')
+
+
+class ClientDelete(DeleteView):
+    model = Client
+    success_url = reverse_lazy('home')
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)

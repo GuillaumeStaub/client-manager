@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from general.models import Client, Commande, InfosTechniques, Forfait, Saison, Evenement
 
 
@@ -179,3 +179,50 @@ class ClientsCreateViewTest(TestCase):
         response = self.client.get(reverse('create_client'))
         assert response.status_code == 200
         self.assertTrue('form' in response.context)
+
+
+class ClientDeleteTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        Client.objects.create(
+            prenom='TestDelete', nom='Jean', adresse='rue de paris',
+            code_postal='33000', commune='Bordeaux', telephone='0787547810'
+        )
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get(f'/delete/{Client.objects.get(prenom="TestDelete").id}', follow=True)
+        assert response.status_code == 200
+
+    def test_object_is_delete_with_post(self):
+        Client.objects.create(
+            prenom='TestDelete2', nom='Jean', adresse='rue de paris',
+            code_postal='33000', commune='Bordeaux', telephone='0787547810'
+        )
+        id_client = Client.objects.get(prenom="TestDelete2").id
+        self.client.post(f'/delete/{id_client}')
+
+        # verifies that a non-existent object returns a 404 error.
+        null_response = self.client.get(f'/delete/{id_client}')
+        self.assertEqual(null_response.status_code, 404)
+
+    def test_object_is_delete_with_get(self):
+        Client.objects.create(
+            prenom='TestDelete3', nom='Jean', adresse='rue de paris',
+            code_postal='33000', commune='Bordeaux', telephone='0787547810'
+        )
+        id_client = Client.objects.get(prenom="TestDelete3").id
+        self.client.get(f'/delete/{id_client}')
+
+        # verifies that a non-existent object returns a 404 error.
+        null_response = self.client.get(f'/delete/{id_client}')
+        self.assertEqual(null_response.status_code, 404)
+
+    def test_success_redirect_after_delete(self):
+        Client.objects.create(
+            prenom='TestDelete4', nom='Jean', adresse='rue de paris',
+            code_postal='33000', commune='Bordeaux', telephone='0787547810'
+        )
+        id_client = Client.objects.get(prenom="TestDelete4").id
+        success_url = reverse_lazy('home')
+        response = self.client.get(f'/delete/{id_client}', follow=True)
+        self.assertRedirects(response, success_url)
