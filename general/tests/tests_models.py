@@ -466,7 +466,7 @@ class CommandeModelTest(TestCase):
         commande = Commande.objects.get(id=1)
         assert commande.total_ht == round(commande.forfait.prix_ht * commande.nb_jours, 2)
         assert commande.total_ttc == round(
-            (commande.forfait.prix_ht * (1 + commande.forfait.taxe / 100)) * commande.nb_jours, 2)
+            (commande.forfait.prix_ht * (1 + commande.forfait.taxe / 100)) * commande.nb_jours, 0)
 
     def test_object_name_is_saison_dash_societe_manege_if_true(self):
         commande = Commande.objects.get(id=1)

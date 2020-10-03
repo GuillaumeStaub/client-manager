@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
+import json
 from general.models import Client, Commande, InfosTechniques, Forfait, Saison, Evenement
 
 
@@ -68,7 +69,7 @@ class ClientsListViewTest(TestCase):
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200)
         self.assertTrue('total_commandes' in response.context)
-        assert float(response.context['total_commandes']) == 391.09
+        assert float(response.context['total_commandes']) == 391.00
 
     def test_nb_commandes_in_context(self):
         response = self.client.get(reverse('home'))
@@ -340,7 +341,32 @@ class UpdateClientViewTest(TestCase):
         assert response.status_code == 200
         self.assertTrue('form' in response.context)
 
+
 class AjaxForfaitTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        pass
+        saison = Saison.objects.create(nom='2020 - Octobre')
+        Forfait.objects.create(nom='Forfait 2', description='Puissance inférieure à 18kVA', prix_ht=14.17,
+                               taxe=20.00, prix_ttc=17.00, saison=saison)
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get('/ajax_forfait/', {'forfait_name': ''})
+        assert response.status_code == 200
+
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('ajax_forfait'), {'forfait_name': ''})
+        assert response.status_code == 200
+
+    def test_response_view_if_forfait_name(self):
+        correct_response = json.dumps({"forfait_price_ht": '14.17', "forfait_price_ttc": '17.00',
+                                       "forfait_taxe": '20.00'})
+        response = self.client.get(reverse('ajax_forfait'), {'forfait_name': 'Forfait 2'})
+        assert response.status_code == 200
+        self.assertEqual(json.loads(response.content), json.loads(correct_response))
+
+    def test_response_view_if_not_forfait_name(self):
+        correct_response = json.dumps({"forfait_price_ht": 0.0, "forfait_price_ttc": 0.0,
+                                       "forfait_taxe": 20.0})
+        response = self.client.get(reverse('ajax_forfait'), {'forfait_name': ''})
+        assert response.status_code == 200
+        self.assertEqual(json.loads(response.content), json.loads(correct_response))
