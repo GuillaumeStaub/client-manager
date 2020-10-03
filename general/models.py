@@ -140,7 +140,7 @@ class Commande(models.Model):
 
     def save(self, *args, **kwarg):
         self.total_ht = round(self.forfait.prix_ht * self.nb_jours, 2)
-        self.total_ttc = round(self.forfait.prix_ht * (1 + self.forfait.taxe / 100) * self.nb_jours, 2)
+        self.total_ttc = round(self.forfait.prix_ht * (1 + self.forfait.taxe / 100) * self.nb_jours, 0)
         super(Commande, self).save(*args, **kwarg)
 
     def __str__(self):

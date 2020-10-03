@@ -17,7 +17,7 @@
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete"><i class="fas fa-trash-alt text-white"></i></button>
             </td>
             <td>
-                <a class="btn btn-primary " href=""><i class=" fas fa-pencil-alt text-white" ></i></a>
+                <a class="btn btn-primary " href="{% url 'update_client' client.id %}"><i class=" fas fa-pencil-alt text-white" ></i></a>
             </td>
               <td>{{ client.nom }}</td>
               <td>{{ client.prenom }}</td>

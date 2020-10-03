@@ -1,9 +1,11 @@
 from django.shortcuts import render
-from .models import Client, Commande
+from .forms import ClientForm
+from .models import Client, Commande, Forfait
 from django.db.models import Sum
 from django.views.generic import ListView
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView
+from django.http import JsonResponse
 from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSetFactory
 
 
@@ -47,8 +49,44 @@ class CreateClientView(CreateWithInlinesView):
 
 
 class ClientDelete(DeleteView):
+    """
+    This generic view allows you to delete a customer and his orders
+    """
     model = Client
     success_url = reverse_lazy('home')
 
     def get(self, request, *args, **kwargs):
         return self.delete(request, *args, **kwargs)
+
+
+class UpdateClientView(UpdateWithInlinesView):
+    """
+    This generic view allows you to update a customer and his orders and create new command for customer
+    """
+    model = Client
+    form_class = ClientForm
+    inlines = [CommandeInline, ]
+    template_name = 'general/update_client.html'
+    success_url = reverse_lazy('home')
+
+
+def ajax_forfait(request):
+    if request.method == 'GET':
+        if request.GET['forfait_name']:
+            forfait_name = request.GET['forfait_name']
+            forfait = Forfait.objects.get(nom=forfait_name)
+            forfait_price_ht = forfait.prix_ht
+            forfait_price_ttc = forfait.prix_ttc
+            forfait_taxe = forfait.taxe
+            response = JsonResponse({"forfait_price_ht": forfait_price_ht, "forfait_price_ttc": forfait_price_ttc,
+                                     "forfait_taxe": forfait_taxe})
+            response.status_code = 200  # To announce that the user isn't allowed to publish
+            return response
+        else:
+            forfait_price_ht = 0.00
+            forfait_price_ttc = 0.00
+            forfait_taxe = 20.00
+            response = JsonResponse({"forfait_price_ht": forfait_price_ht, "forfait_price_ttc": forfait_price_ttc,
+                                     "forfait_taxe": forfait_taxe})
+            response.status_code = 200  # To announce that the user isn't allowed to publish
+            return response
