@@ -370,3 +370,52 @@ class AjaxForfaitTest(TestCase):
         response = self.client.get(reverse('ajax_forfait'), {'forfait_name': ''})
         assert response.status_code == 200
         self.assertEqual(json.loads(response.content), json.loads(correct_response))
+
+
+class ClientsSearchViewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        number_of_clients = 10
+
+        for client_id in range(number_of_clients):
+            Client.objects.create(
+                prenom=f'Christian {client_id}',
+                nom=f'Surname {client_id}',
+                adresse=f' {client_id} rue de paris',
+                code_postal=f'33000',
+                commune='Bordeaux',
+                telephone=f'07875478{client_id}',
+            )
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get('/ajax_search/client/', {'q': ''}, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        assert response.status_code == 200
+
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('ajax_search_client'), {'q': ''},
+                                   **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        assert response.status_code == 200
+
+    def test_response_view_template(self):
+        response = self.client.get(reverse('ajax_search_client'), {'q': 'Surname 1'}, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        assert response.status_code == 200
+        self.assertTemplateUsed(response, 'general/table_clients.html')
+
+    def test_response_view_html_if_url_parameter(self):
+        response = self.client.get(reverse('ajax_search_client'), {'q': 'Surname 1'}, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        assert response.status_code == 200
+        self.assertContains(response, '<td>Surname 1</td>')
+
+    def test_response_view_html_if_not_url_parameter(self):
+        response = self.client.get(reverse('ajax_search_client'), {'q': ''}, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        assert response.status_code == 200
+        for client in range(10):
+            self.assertContains(response, f'<td>Surname {client}</td>')
+
+    def test_response_view_html_ifrequest_is_not_ajax(self):
+        response = self.client.get(reverse('ajax_search_client'), {'q': ''})
+        assert response.status_code == 200
+        for client in range(10):
+            self.assertContains(response, f'<td>Surname {client}</td>')
+
+

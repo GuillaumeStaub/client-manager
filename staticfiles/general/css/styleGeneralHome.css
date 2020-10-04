@@ -1,0 +1,31 @@
+#add_2{
+    display: none;
+}
+#search_2{
+    display: none;
+}
+
+@media screen and (min-width: 200px) and (max-width: 940px) {
+    #search_2{
+    display: block;
+}
+     #search_1{
+    display: none;
+}
+
+}
+@media screen and (min-width: 200px) and (max-width: 767px) {
+  #add_2{
+    display: block;
+}
+    #add_1{
+        display: none;
+    }
+    #search_2{
+    display: block;
+}
+     #search_1{
+    display: none;
+}
+
+}

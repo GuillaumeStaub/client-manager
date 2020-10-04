@@ -1,0 +1,303 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>Example 1</title>
+    <style type="text/css">
+        a {
+            color: #5D6975;
+            text-decoration: underline;
+        }
+
+        body {
+            position: relative;
+            size: A4;
+            margin: 0 auto;
+            color: #001028;
+            background: #FFFFFF;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            font-family: Arial;
+        }
+
+        header {
+          padding: 10px 0;
+          margin-bottom: 30px;
+          justify-content: space-between;
+          border-color: #0f6674;
+
+        }
+        #logo {
+          text-align: left;
+          margin-bottom: 15px;
+        }
+
+        #logo img {
+          width: 150px;
+          height: 50px;
+        }
+
+        h1 {
+          border-top: 1px solid  #005EB8;
+          border-bottom: 1px solid  #005EB8;
+          color: #005EB8;
+          font-size: 2.0em;
+          line-height: 1.0rem;
+          height:1rem ;
+          font-weight: normal;
+          text-align: center;
+          padding: 10px;
+          margin: 0px 0px 20px 0px;
+
+        }
+
+
+
+        #infosClient span {
+          color: #5D6975;
+          text-align: left;
+          width: 52px;
+          margin-right: 10px;
+          display: inline-block;
+          font-size: 0.8em;
+
+        }
+
+
+
+        #forfaitTitle {
+
+          border-bottom:1px solid  #005EB8 ;
+          margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+          width: 100%;
+          height: 100%;
+        }
+        #forfaitTitle h2 {
+          color: #005EB8;
+          text-align: left;
+          margin-bottom: 0.2rem;
+
+        }
+
+        table {
+          border-collapse: collapse;
+          border-spacing: 0;
+          margin-bottom: 20px;
+        }
+
+
+        .colored {
+          background-color: #F5F5F5;
+        }
+
+
+
+        table th {
+          padding-top: 4px;
+          color: #5D6975;
+          border-bottom: 1px solid #C1CED9;
+          font-weight: normal;
+        }
+
+
+        table td {
+          padding: 5px;
+          text-align: center;
+          font-size: 1.1rem;
+        }
+        #general{
+            border-top:1px solid #005EB8;
+
+        }
+        .total{
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        #lieuDate .notice {
+          color: #5D6975;
+          font-size: 1.2em;
+            margin-top: 40px;
+        }
+
+        #signature{
+            margin-top: 30px;
+            text-align: center;
+            font-size: 1.2em;
+            color: #5D6975;
+            font-weight: bold;
+        }
+        #tableFooter{
+
+        }
+
+        #footer {
+          color: #5D6975;
+          height: 30px;
+          position: absolute;
+          top: 60px;
+          border-top: 1px solid #C1CED9;
+          padding: 8px 0;
+          text-align: left;
+        }
+    </style>
+  </head>
+  <body>
+
+    <header class="clearfix">
+      <div id="logo">
+        <img src="images/enedis.png">
+      </div>
+      <h1>{{commande.evenement.nom}} - {{ commande.saison }}</h1>
+     <table id="tableFooter">
+        <thead>
+
+        </thead>
+        <tbody>
+          <tr>
+            <td id="infosClient" style="text-align: left">
+                <span>EVENEMENT</span> {{commande.evenement.nom}} {{commande.evenement.prenom}}<br>
+                <span>SAISON</span> {{commande.forfait.saison}}<br>
+                <span>CLIENT</span> {{commande.client.nom}} {{commande.client.prenom}}<br>
+               {% if commande.client.societe_manege %}
+                <span>SOCIETE/MANEGE</span>
+                {{commande.client.societe_manege}}<br>{% endif %}
+            <span>ADRESSE</span> {{commande.client.adresse}} {{commande.client.code_postal}} {{commande.client.commune}}<br>
+            <span>TELEPHONE</span> {{commande.client.telephone}}<br>
+            {% if commande.client.email %}
+            <span>EMAIL</span> <a href="mailto:{{commande.client.email}}">
+        {{commande.client.email}}
+
+         </a><br>{% endif %}
+        <span>DATE</span> {{ date|date:"l d F Y" }}
+
+
+
+            </td>
+            <td style="text-align: right">Direction Régionale ENEDIS<br>
+                DR Aquitaine Nord<br>
+                4 rue Isaac Newton<br>
+                33700 Mérignac<br>
+                www.enedis.fr<br></td>
+
+        </tbody>
+      </table>
+
+
+    </header>
+   
+    <main>
+        <div id="forfaitTitle">
+        <h2>Vos informations techniques</h2>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th class="service">NUMERO D'ARMOIRE</th>
+            <th class="desc">EMPLACEMENT</th>
+            <th>MATRICULE COMPTEUR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="colored">
+            <td>{{ commande.infos_techniques.num_armoire}}</td>
+            <td>{{ commande.infos_techniques.emplacement}}</td>
+            <td>{{ commande.infos_techniques.matricule_compteur}}</td>
+          </tr>
+
+        </tbody>
+      </table>
+      <div id="forfaitTitle">
+        <h2>Votre Forfait</h2>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th class="service">NOM</th>
+            <th class="desc">DESCRIPTION</th>
+            <th>PUISSANCE SOUSCRITE</th>
+            <th>PRIX HT/JOUR</th>
+            <th>PRIX TTC/JOUR</th>
+            <th>NB JOURS</th>
+            <th>TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="colored">
+            <td>{{ commande.forfait.nom}}</td>
+            <td>{{ commande.forfait.description}}</td>
+            <td>{{ commande.puissance}} kVA</td>
+            <td>{{ commande.forfait.prix_ht}}€</td>
+            <td>{{ commande.forfait.prix_ttc}}€</td>
+            <td>{{ commande.nb_jours}}</td>
+            <td class="total">{{ commande.total_ht}}€</td>
+          </tr>
+        <tr>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td>TVA ({{ commande.forfait.taxe}}%)</td>
+            <td class="total">{{TVA_calc}}€</td>
+          </tr>
+        <tr class="colored" id="general">
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td class="total">Total Général</td>
+            <td class="total">{{ commande.total_ttc }}€</td>
+          </tr>
+
+
+        </tbody>
+      </table>
+      <div id="lieuDate">
+        <div class="notice">Fait à .......................................... le ......./......./.......</div>
+      </div>
+      <div id="signature">
+        <div class="notice">Signature précédée de la mention <q>lu et approuvé</q></div>
+      </div>
+    </main>
+    <p style="font-size: 0.7rem; margin-top: 70px">Enedis est une entreprise de service public, gestionnaire du réseau de distribution d’électricité.
+        Elle développe, exploite, modernise le réseau électrique et gère les données associées.
+        Elle réalise les raccordements des clients, le dépannage 24h/24, le relevé des compteurs et toutes
+        les interventions techniques. Elle est indépendante des fournisseurs d’énergie qui sont chargés de la vente
+        et de la gestion du contrat de fourniture d’électricité.
+
+</p>
+    <table id="tableFooter" style="color: rgba(0, 94, 184, 0.4)">
+        <thead>
+
+        </thead>
+        <tbody>
+          <tr style="font-size: 0.7rem ">
+            <td style="text-align: left; opacity: 0.6">
+                Direction Régionale ENEDIS<br>
+                DR AQUITAINE NORD<br>
+                4 rue Isaac Newton<br>
+                33700 MERIGNAC<br>
+                Tél: 09 69 32 18 67
+            </td>
+            <td style="text-align: left; width: 290px">
+                SA à directoire et à conseil de surveillance<br>
+                Capital de 270 037 000€ - RCS de Nanterre 444 608 442<br>
+                Enedis - Tour Enedis - 34 place des Corolles<br>
+                92 079 Paris La Défense Cedex<br>
+                Enedis est certifié ISO 14001
+            </td>
+            <td style="text-align: center"><img style="width: 50px; height: 50px" src="images/mini_enedis.png"></td>
+
+          </tr>
+
+        </tbody>
+      </table>
+    <footer id="footer">
+
+    </footer>
+  </body>
+</html>

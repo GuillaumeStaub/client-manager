@@ -1,12 +1,17 @@
 from django.shortcuts import render
+from django.conf import settings
 from .forms import ClientForm
 from .models import Client, Commande, Forfait
+from django.db.models import Q
 from django.db.models import Sum
 from django.views.generic import ListView
 from django.urls import reverse_lazy
-from django.views.generic import DeleteView
+from django.views.generic import DeleteView, DetailView
 from django.http import JsonResponse
+from django.template.loader import render_to_string
 from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSetFactory
+from easy_pdf.views import PDFTemplateResponseMixin
+from datetime import datetime
 
 
 class HomeView(ListView):
@@ -90,3 +95,53 @@ def ajax_forfait(request):
                                      "forfait_taxe": forfait_taxe})
             response.status_code = 200  # To announce that the user isn't allowed to publish
             return response
+
+
+def clients_search_view(request):
+    url_parameter = request.GET.get("q")
+    if url_parameter:
+        clients = Client.objects.filter(Q(nom__icontains=url_parameter) | Q(telephone__icontains=url_parameter))
+    else:
+        clients = Client.objects.all()
+    field_names = ['Nom', 'Prenom', 'Téléphone', 'Ville']
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string(
+            template_name="general/table_clients.html",
+            context={"clients": clients, "field_names": field_names}
+        )
+
+        data_dict = {"html_from_view": html}
+
+        return JsonResponse(data=data_dict, safe=False)
+
+    return render(request, "general/home.html", context={"clients": clients, "field_names": field_names})
+
+
+class CommandePDFView(PDFTemplateResponseMixin, DetailView):
+    model = Commande
+    base_url = 'file://{}/'.format(settings.STATIC_ROOT)
+    template_name = 'general/PDF.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CommandePDFView, self).get_context_data(**kwargs)
+        context['TVA_calc'] = round(context['commande'].forfait.prix_ht * (context['commande'].forfait.taxe / 100), 2) * \
+                              context['commande'].nb_jours
+        context['date'] = datetime.now()
+        return context
+
+
+"""
+
+
+class CommandePDFView(View):
+    def get(self, request, *args, **kwargs):
+        data = {
+            'commande':Commande.objects.get(id=kwargs['pk']),
+            'today':'123',
+            'amount': 39.99,
+            'customer_name': 'Cooper Mann',
+            'order_id': 1233434,
+        }
+        pdf = render_to_pdf('general/PDF.html', data)
+        return HttpResponse(pdf, content_type='application/pdf')
+"""

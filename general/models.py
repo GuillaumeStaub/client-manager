@@ -68,7 +68,7 @@ class Forfait(models.Model):
     saison = models.ForeignKey(Saison, on_delete=models.PROTECT)
 
     def save(self, *args, **kwarg):
-        self.prix_ttc = round(self.prix_ht * (1 + self.taxe / 100), 2)
+        self.prix_ttc = round(self.prix_ht * (1 + self.taxe / 100), 1)
         super(Forfait, self).save(*args, **kwarg)
 
     def __str__(self):
@@ -140,7 +140,7 @@ class Commande(models.Model):
 
     def save(self, *args, **kwarg):
         self.total_ht = round(self.forfait.prix_ht * self.nb_jours, 2)
-        self.total_ttc = round(self.forfait.prix_ht * (1 + self.forfait.taxe / 100) * self.nb_jours, 0)
+        self.total_ttc = round(self.forfait.prix_ht * (1 + self.forfait.taxe / 100), 1) * self.nb_jours
         super(Commande, self).save(*args, **kwarg)
 
     def __str__(self):

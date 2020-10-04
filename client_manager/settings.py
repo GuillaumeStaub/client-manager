@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'extra_views',
     'crispy_forms',
+    'easy_pdf',
 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -133,6 +134,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = os.path.join(BASE_DIR, 'media/')
