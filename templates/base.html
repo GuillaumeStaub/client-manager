@@ -33,6 +33,9 @@
   <a class="navbar-brand" href="#">
       <img src="{% static 'images/enedis.png' %}" width="100px" height="30px">
   </a>
+    {% if user.is_authenticated %}
+
+
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
     aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -75,11 +78,16 @@
           aria-labelledby="navbarDropdownMenuLink-333">
           <a class="dropdown-item disabled" href="#">Mon compte</a>
           <a class="dropdown-item disabled" href="#">Paramètres</a>
+         {% if user.is_superuser %}
+         <a class="dropdown-item" href="{% url 'admin:index' %}">Administration</a>
+
+         {% endif %}
           <a class="dropdown-item" href="{% url 'logout' %}" style="font-weight: bold">Se déconnecter</a>
         </div>
       </li>
     </ul>
   </div>
+{% endif %}
 </nav>
 {% endblock %}
 
