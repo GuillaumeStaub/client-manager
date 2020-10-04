@@ -1,1 +1,1 @@
-Web: gunicorn client_manager.wsgi --log-file -
+web: gunicorn client_manager.wsgi
