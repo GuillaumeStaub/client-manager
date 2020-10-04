@@ -19,9 +19,11 @@ weasyprint = "*"
 django-easy-pdf = "*"
 xhtml2pdf = "*"
 reportlab = "*"
+gunicorn = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.7"
 
 [pipenv]
-allow_prereleases = false
+allow_prereleases = true

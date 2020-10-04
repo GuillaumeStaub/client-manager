@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "58999566dbd656a3e98564c789d3f8773b13c74a54c4be85ddf17cd97101462a"
+            "sha256": "a34c47b3f64facf629ca08d072b6bb3313b561ceba65fe2849b5582f9eb5a1bf"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -93,10 +93,10 @@
         },
         "defusedxml": {
             "hashes": [
-                "sha256:6687150770438374ab581bb7a1b327a847dd9c5749e396102de3fad4e8a3ef93",
-                "sha256:f684034d135af4c6cbb949b8a4d2ed61634515257a67299e5f940fbaa34377f5"
+                "sha256:8ede8ba04cf5bf7999e1492fa77df545db83717f52c5eab625f97228ebd539bf",
+                "sha256:aa621655d72cdd30f57073893b96cd0c3831a85b08b8e4954531bdac47e3e8c8"
             ],
-            "version": "==0.6.0"
+            "version": "==0.7.0rc1"
         },
         "django": {
             "hashes": [
@@ -116,10 +116,10 @@
         },
         "django-easy-pdf": {
             "hashes": [
-                "sha256:f7cb58e896791d28718219c54d2c8930e442fa1327817037e1c480bead77cddb"
+                "sha256:4cc089dd8d10c1a32ca8fc77c368b45a88970aad13623df798426848bdb58046"
             ],
             "index": "pypi",
-            "version": "==0.1.1"
+            "version": "==0.2.0.dev1"
         },
         "django-extra-views": {
             "hashes": [
@@ -143,6 +143,14 @@
             ],
             "index": "pypi",
             "version": "==1.4.8"
+        },
+        "gunicorn": {
+            "hashes": [
+                "sha256:1904bb2b8a43658807108d59c3f3d56c2b6121a701161de0ddf9ad140073c626",
+                "sha256:cd4a810dd51bf497552cf3f863b575dabd73d6ad6a91075b65936b151cbf4f9c"
+            ],
+            "index": "pypi",
+            "version": "==20.0.4"
         },
         "html5lib": {
             "hashes": [
@@ -267,10 +275,10 @@
         },
         "pyparsing": {
             "hashes": [
-                "sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1",
-                "sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b"
+                "sha256:1060635ca5ac864c2b7bc7b05a448df4e32d7d8c65e33cbe1514810d339672a2",
+                "sha256:56a551039101858c9e189ac9e66e330a03fb7079e97ba6b50193643905f450ce"
             ],
-            "version": "==2.4.7"
+            "version": "==3.0.0a2"
         },
         "pypdf2": {
             "hashes": [
@@ -396,6 +404,14 @@
             ],
             "version": "==0.5.1"
         },
+        "whitenoise": {
+            "hashes": [
+                "sha256:05ce0be39ad85740a78750c86a93485c40f08ad8c62a6006de0233765996e5c7",
+                "sha256:05d00198c777028d72d8b0bbd234db605ef6d60e9410125124002518a48e515d"
+            ],
+            "index": "pypi",
+            "version": "==5.2.0"
+        },
         "xhtml2pdf": {
             "hashes": [
                 "sha256:6793fbbdcb6bb8a4a70132966d8d95e95ea3498cdf0e82252d2b8e9aae34fcb5"
@@ -465,10 +481,10 @@
         },
         "pyparsing": {
             "hashes": [
-                "sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1",
-                "sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b"
+                "sha256:1060635ca5ac864c2b7bc7b05a448df4e32d7d8c65e33cbe1514810d339672a2",
+                "sha256:56a551039101858c9e189ac9e66e330a03fb7079e97ba6b50193643905f450ce"
             ],
-            "version": "==2.4.7"
+            "version": "==3.0.0a2"
         },
         "pytest": {
             "hashes": [
