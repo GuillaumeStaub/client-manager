@@ -173,6 +173,16 @@
                                         {{ form.payee|as_crispy_field }}
                                     </div>
                                 </div>
+                                     <div class="d-flex mb-3 mt-0 bd-highlight justify-content-end ">
+                        <div class=" mr-2 align-items-end">
+                            {% if form.instance.id %}
+                                <a class="btn btn-secondary" href="{% url 'commande_pdf' form.instance.id  %}">Imprimer </a>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
                             </div>
 
                             {% endfor %}

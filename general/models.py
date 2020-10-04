@@ -136,7 +136,9 @@ class Commande(models.Model):
                                          verbose_name="Informations techniques")
     total_ht = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     total_ttc = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
+    date_commande = models.DateTimeField(auto_now_add=True, verbose_name='Date Commande')
     payee = models.BooleanField(default=False, verbose_name='Commade payée')
+    traite_ach = models.BooleanField(default=False, verbose_name='Traitée ACH')
 
     def save(self, *args, **kwarg):
         self.total_ht = round(self.forfait.prix_ht * self.nb_jours, 2)

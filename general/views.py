@@ -7,6 +7,8 @@ from django.db.models import Sum
 from django.views.generic import ListView
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSetFactory
@@ -14,7 +16,7 @@ from easy_pdf.views import PDFTemplateResponseMixin
 from datetime import datetime
 
 
-class HomeView(ListView):
+class HomeView(LoginRequiredMixin, ListView):
     """
     This view shows the list of customers by adding in the context additional information such as the number of
     Vorders, or the sum of orders paid.
@@ -42,7 +44,7 @@ class CommandeInline(InlineFormSetFactory):
     factory_kwargs = {'extra': 2, 'can_order': False, 'can_delete': False}
 
 
-class CreateClientView(CreateWithInlinesView):
+class CreateClientView(LoginRequiredMixin, CreateWithInlinesView):
     """
     This generic view allows you to create a new customer and add new orders to it.
     """
@@ -53,7 +55,7 @@ class CreateClientView(CreateWithInlinesView):
     success_url = reverse_lazy('home')
 
 
-class ClientDelete(DeleteView):
+class ClientDelete(LoginRequiredMixin, DeleteView):
     """
     This generic view allows you to delete a customer and his orders
     """
@@ -64,7 +66,7 @@ class ClientDelete(DeleteView):
         return self.delete(request, *args, **kwargs)
 
 
-class UpdateClientView(UpdateWithInlinesView):
+class UpdateClientView(LoginRequiredMixin, UpdateWithInlinesView):
     """
     This generic view allows you to update a customer and his orders and create new command for customer
     """
@@ -75,6 +77,7 @@ class UpdateClientView(UpdateWithInlinesView):
     success_url = reverse_lazy('home')
 
 
+@login_required
 def ajax_forfait(request):
     if request.method == 'GET':
         if request.GET['forfait_name']:
@@ -97,6 +100,7 @@ def ajax_forfait(request):
             return response
 
 
+@login_required
 def clients_search_view(request):
     url_parameter = request.GET.get("q")
     if url_parameter:
@@ -117,7 +121,7 @@ def clients_search_view(request):
     return render(request, "general/home.html", context={"clients": clients, "field_names": field_names})
 
 
-class CommandePDFView(PDFTemplateResponseMixin, DetailView):
+class CommandePDFView(LoginRequiredMixin, PDFTemplateResponseMixin, DetailView):
     model = Commande
     base_url = 'file://{}/'.format(settings.STATIC_ROOT)
     template_name = 'general/PDF.html'
@@ -128,20 +132,3 @@ class CommandePDFView(PDFTemplateResponseMixin, DetailView):
                               context['commande'].nb_jours
         context['date'] = datetime.now()
         return context
-
-
-"""
-
-
-class CommandePDFView(View):
-    def get(self, request, *args, **kwargs):
-        data = {
-            'commande':Commande.objects.get(id=kwargs['pk']),
-            'today':'123',
-            'amount': 39.99,
-            'customer_name': 'Cooper Mann',
-            'order_id': 1233434,
-        }
-        pdf = render_to_pdf('general/PDF.html', data)
-        return HttpResponse(pdf, content_type='application/pdf')
-"""

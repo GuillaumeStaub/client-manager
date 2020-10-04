@@ -29,7 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1']
 
 LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000'
-LOGIN_URL = 'users/login/'
+LOGIN_URL = '/users/login/'
 LOGOUT_REDIRECT_URL = LOGIN_URL
 # Application definition
 

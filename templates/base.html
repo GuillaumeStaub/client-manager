@@ -31,7 +31,7 @@
 {% block nav %}
 <nav class="mb-1 navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#">
-      <img src="{% static 'images/enedis.png' %}" width="100px" height="40px">
+      <img src="{% static 'images/enedis.png' %}" width="100px" height="30px">
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
     aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,9 +73,9 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-default"
           aria-labelledby="navbarDropdownMenuLink-333">
-          <a class="dropdown-item" href="#">Mon compte</a>
-          <a class="dropdown-item" href="#">Paramètres</a>
-          <a class="dropdown-item" href="#" style="font-weight: bold">Se déconnecter</a>
+          <a class="dropdown-item disabled" href="#">Mon compte</a>
+          <a class="dropdown-item disabled" href="#">Paramètres</a>
+          <a class="dropdown-item" href="{% url 'logout' %}" style="font-weight: bold">Se déconnecter</a>
         </div>
       </li>
     </ul>

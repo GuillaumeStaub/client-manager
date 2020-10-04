@@ -1,12 +1,18 @@
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
 import json
+from django.contrib.auth.models import User
 from general.models import Client, Commande, InfosTechniques, Forfait, Saison, Evenement
 
 
 class ClientsListViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        # Create two users
+        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
+
+        test_user1.save()
+
         # Create 62 Clients for pagination tests
         number_of_clients = 62
 
@@ -31,55 +37,89 @@ class ClientsListViewTest(TestCase):
                                 infos_techniques=infos_techniques,
                                 evenement=event, payee=True)
 
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get(reverse('home'))
+        self.assertRedirects(response, '/users/login/?next=%2F')
+
+    def test_logged_in_uses_correct_template(self):
+        login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('home'))
+
+        # Check our user is logged in
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        # Check that we got a response "success"
+        self.assertEqual(response.status_code, 200)
+
+        # Check we used correct template
+        self.assertTemplateUsed(response, 'general/home.html')
+
     def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get('')
+        self.assertEqual(str(response.context['user']), 'testuser1')
         assert response.status_code == 200
 
     def test_view_url_accessible_by_name(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(reverse('home'))
+        self.assertEqual(str(response.context['user']), 'testuser1')
         assert response.status_code == 200
 
     def test_view_uses_correct_template(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(reverse('home'))
         assert response.status_code == 200
+        self.assertEqual(str(response.context['user']), 'testuser1')
         self.assertTemplateUsed(response, 'general/home.html')
 
     def test_pagination_is_fiveteen(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200)
         self.assertTrue('is_paginated' in response.context)
         self.assertTrue(response.context['is_paginated'] == True)
+        self.assertEqual(str(response.context['user']), 'testuser1')
         self.assertTrue(len(response.context['clients']) == 50)
 
     def test_lists_all_clients(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         # Get second page and confirm it has (exactly) remaining 12 items
         response = self.client.get(reverse('home') + '?page=2')
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(response.context['user']), 'testuser1')
         self.assertTrue('is_paginated' in response.context)
         self.assertTrue(response.context['is_paginated'] == True)
         self.assertTrue(len(response.context['clients']) == 13)
 
     def test_nb_clients_in_context(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(response.context['user']), 'testuser1')
         self.assertTrue('nb_clients' in response.context)
         self.assertTrue(response.context['nb_clients'] == 63)
 
     def test_total_commandes_in_context(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(response.context['user']), 'testuser1')
         self.assertTrue('total_commandes' in response.context)
         assert float(response.context['total_commandes']) == 391.00
 
     def test_nb_commandes_in_context(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(response.context['user']), 'testuser1')
         self.assertTrue('nb_commandes' in response.context)
         assert response.context['nb_commandes'] == 1
 
     def test_field_names_in_context(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(response.context['user']), 'testuser1')
         self.assertTrue('field_names' in response.context)
         assert response.context['field_names'] == ['Nom', 'Prenom', 'Téléphone', 'Commune']
 
@@ -87,6 +127,8 @@ class ClientsListViewTest(TestCase):
 class ClientsCreateViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
+        test_user1.save()
         Client.objects.create(
             prenom='Christian', nom='Surname', adresse='rue de paris',
             code_postal='33000', commune='Bordeaux', telephone='0787547810'
@@ -98,20 +140,28 @@ class ClientsCreateViewTest(TestCase):
                                prix_ttc=17.00, saison=saison)
         Evenement.objects.create(nom='Brocante des Quinquonces', ville='Bordeaux', type='Brocante')
 
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get(reverse('create_client'))
+        self.assertRedirects(response, '/users/login/?next=/create/client')
+
     def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get('/create/client')
         assert response.status_code == 200
 
     def test_view_url_accessible_by_name(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(reverse('create_client'))
         assert response.status_code == 200
 
     def test_view_uses_correct_template(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(reverse('create_client'))
         assert response.status_code == 200
         self.assertTemplateUsed(response, 'general/create_client.html')
 
     def test_create_client(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         data = {}
         response = self.client.get(reverse('create_client'))
         assert response.status_code == 200
@@ -132,6 +182,7 @@ class ClientsCreateViewTest(TestCase):
         self.assertEqual(Client.objects.last().id, 71)
 
     def test_create_client_and_command(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         data = {}
         response = self.client.get(reverse('create_client'))
         assert response.status_code == 200
@@ -166,17 +217,20 @@ class ClientsCreateViewTest(TestCase):
         self.assertEqual(Commande.objects.last().client.id, 72)
 
     def test_view_inlines_in_context(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(reverse('create_client'))
         assert response.status_code == 200
         self.assertTrue('inlines' in response.context)
 
     def test_view_two_formset_in_context(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(reverse('create_client'))
         assert response.status_code == 200
         formsets = [formset for formset in response.context['inlines']]
         self.assertTrue(len(formsets), 2)
 
     def test_view_form_in_context(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(reverse('create_client'))
         assert response.status_code == 200
         self.assertTrue('form' in response.context)
@@ -185,16 +239,25 @@ class ClientsCreateViewTest(TestCase):
 class ClientDeleteTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
+        test_user1.save()
         Client.objects.create(
             prenom='TestDelete', nom='Jean', adresse='rue de paris',
             code_postal='33000', commune='Bordeaux', telephone='0787547810'
         )
 
+    def test_redirect_if_not_logged_in(self):
+        id_client = Client.objects.last().id
+        response = self.client.get('/delete/{}'.format(id_client))
+        self.assertRedirects(response, '/users/login/?next=/delete/{}'.format(id_client))
+
     def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(f'/delete/{Client.objects.get(prenom="TestDelete").id}', follow=True)
         assert response.status_code == 200
 
     def test_object_is_delete_with_post(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         Client.objects.create(
             prenom='TestDelete2', nom='Jean', adresse='rue de paris',
             code_postal='33000', commune='Bordeaux', telephone='0787547810'
@@ -207,6 +270,7 @@ class ClientDeleteTest(TestCase):
         self.assertEqual(null_response.status_code, 404)
 
     def test_object_is_delete_with_get(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         Client.objects.create(
             prenom='TestDelete3', nom='Jean', adresse='rue de paris',
             code_postal='33000', commune='Bordeaux', telephone='0787547810'
@@ -219,6 +283,7 @@ class ClientDeleteTest(TestCase):
         self.assertEqual(null_response.status_code, 404)
 
     def test_success_redirect_after_delete(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         Client.objects.create(
             prenom='TestDelete4', nom='Jean', adresse='rue de paris',
             code_postal='33000', commune='Bordeaux', telephone='0787547810'
@@ -232,6 +297,8 @@ class ClientDeleteTest(TestCase):
 class UpdateClientViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
+        test_user1.save()
         client = Client.objects.create(
             prenom='Michel', nom='Antoine', adresse='rue de paris',
             code_postal='33000', commune='Bordeaux', telephone='0787547810'
@@ -246,23 +313,32 @@ class UpdateClientViewTest(TestCase):
                                 infos_techniques=infos_techniques,
                                 evenement=event, payee=True)
 
+    def test_redirect_if_not_logged_in(self):
+        id_client = Client.objects.last().id
+        response = self.client.get('/update/{}'.format(id_client))
+        self.assertRedirects(response, '/users/login/?next=/update/{}'.format(id_client))
+
     def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         id_client_to_update = Client.objects.get(nom='Antoine').id
         response = self.client.get(f'/update/{id_client_to_update}')
         assert response.status_code == 200
 
     def test_view_url_accessible_by_name(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         id_client_to_update = Client.objects.get(nom='Antoine').id
         response = self.client.get(reverse('update_client', kwargs={'pk': id_client_to_update}))
         assert response.status_code == 200
 
     def test_view_uses_correct_template(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         id_client_to_update = Client.objects.get(nom='Antoine').id
         response = self.client.get(reverse('update_client', kwargs={'pk': id_client_to_update}))
         assert response.status_code == 200
         self.assertTemplateUsed(response, 'general/update_client.html')
 
     def test_update_client(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         id_client_to_update = Client.objects.get(nom='Antoine').id
         data = {}
         response = self.client.get(reverse('update_client', kwargs={'pk': id_client_to_update}))
@@ -284,6 +360,7 @@ class UpdateClientViewTest(TestCase):
         self.assertEqual(Client.objects.last().prenom, 'Marc')
 
     def test_update_client_and_command(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         id_client_to_update = Client.objects.get(nom='Antoine').id
         data = {}
         response = self.client.get(reverse('update_client', kwargs={'pk': id_client_to_update}))
@@ -323,12 +400,14 @@ class UpdateClientViewTest(TestCase):
         self.assertEqual(Commande.objects.last().client.prenom, 'Paul')
 
     def test_view_inlines_in_context(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         id_client_to_update = Client.objects.get(nom='Antoine').id
         response = self.client.get(reverse('update_client', kwargs={'pk': id_client_to_update}))
         assert response.status_code == 200
         self.assertTrue('inlines' in response.context)
 
     def test_view_two_formset_in_context(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         id_client_to_update = Client.objects.get(nom='Antoine').id
         response = self.client.get(reverse('update_client', kwargs={'pk': id_client_to_update}))
         assert response.status_code == 200
@@ -336,6 +415,7 @@ class UpdateClientViewTest(TestCase):
         self.assertTrue(len(formsets), 3)
 
     def test_view_form_in_context(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         id_client_to_update = Client.objects.get(nom='Antoine').id
         response = self.client.get(reverse('update_client', kwargs={'pk': id_client_to_update}))
         assert response.status_code == 200
@@ -345,19 +425,28 @@ class UpdateClientViewTest(TestCase):
 class AjaxForfaitTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
+        test_user1.save()
         saison = Saison.objects.create(nom='2020 - Octobre')
         Forfait.objects.create(nom='Forfait 2', description='Puissance inférieure à 18kVA', prix_ht=14.17,
                                taxe=20.00, prix_ttc=17.00, saison=saison)
 
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get('/ajax_forfait/')
+        self.assertRedirects(response, '/users/login/?next=/ajax_forfait/')
+
     def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get('/ajax_forfait/', {'forfait_name': ''})
         assert response.status_code == 200
 
     def test_view_url_accessible_by_name(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(reverse('ajax_forfait'), {'forfait_name': ''})
         assert response.status_code == 200
 
     def test_response_view_if_forfait_name(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         correct_response = json.dumps({"forfait_price_ht": '14.17', "forfait_price_ttc": '17.00',
                                        "forfait_taxe": '20.00'})
         response = self.client.get(reverse('ajax_forfait'), {'forfait_name': 'Forfait 2'})
@@ -365,6 +454,7 @@ class AjaxForfaitTest(TestCase):
         self.assertEqual(json.loads(response.content), json.loads(correct_response))
 
     def test_response_view_if_not_forfait_name(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         correct_response = json.dumps({"forfait_price_ht": 0.0, "forfait_price_ttc": 0.0,
                                        "forfait_taxe": 20.0})
         response = self.client.get(reverse('ajax_forfait'), {'forfait_name': ''})
@@ -375,6 +465,8 @@ class AjaxForfaitTest(TestCase):
 class ClientsSearchViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
+        test_user1.save()
         number_of_clients = 10
 
         for client_id in range(number_of_clients):
@@ -386,36 +478,46 @@ class ClientsSearchViewTest(TestCase):
                 commune='Bordeaux',
                 telephone=f'07875478{client_id}',
             )
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get('/ajax_search/client/')
+        self.assertRedirects(response, '/users/login/?next=/ajax_search/client/')
 
     def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get('/ajax_search/client/', {'q': ''}, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
         assert response.status_code == 200
 
     def test_view_url_accessible_by_name(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(reverse('ajax_search_client'), {'q': ''},
                                    **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
         assert response.status_code == 200
 
     def test_response_view_template(self):
-        response = self.client.get(reverse('ajax_search_client'), {'q': 'Surname 1'}, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('ajax_search_client'), {'q': 'Surname 1'},
+                                   **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
         assert response.status_code == 200
         self.assertTemplateUsed(response, 'general/table_clients.html')
 
     def test_response_view_html_if_url_parameter(self):
-        response = self.client.get(reverse('ajax_search_client'), {'q': 'Surname 1'}, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('ajax_search_client'), {'q': 'Surname 1'},
+                                   **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
         assert response.status_code == 200
         self.assertContains(response, '<td>Surname 1</td>')
 
     def test_response_view_html_if_not_url_parameter(self):
-        response = self.client.get(reverse('ajax_search_client'), {'q': ''}, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('ajax_search_client'), {'q': ''},
+                                   **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
         assert response.status_code == 200
         for client in range(10):
             self.assertContains(response, f'<td>Surname {client}</td>')
 
     def test_response_view_html_ifrequest_is_not_ajax(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
         response = self.client.get(reverse('ajax_search_client'), {'q': ''})
         assert response.status_code == 200
         for client in range(10):
             self.assertContains(response, f'<td>Surname {client}</td>')
-
-
