@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field%}
+{% load static %}
+{% block nav_item1 %}inactive{% endblock %}
+{% block nav_item2 %}active{% endblock %}
+{% block title %}PNT - Création client{% endblock %}
+{% block content %}
+    <style>
+    h4, h2 {
+        color: #005EB8;
+    }
+    .form-check-input{
+        width: 20px; height: 20px;
+    }
+
+    </style>
+    <div class='container mt-5 '>
+        <div class="row">
+           <h2 class="col-md-12 mx-auto text-center">Consultation de la commande #{{ commande.id }}</h2>
+
+        </div>
+        <div class='row mt-5 border-bottom border-primary'>
+            <h4> Informations générales</h4>
+        </div>
+        <div class='row my-4 pb-4'>
+            <div class='col-6  mx-auto'>
+                <div class="font-weight-bold">Evènement: </div>
+                <div class="border p-1"> {{ commande.evenement }}</div>
+
+            </div>
+            <div class='col-6  mx-auto'>
+                <div class="font-weight-bold">Saison: </div>
+                <div class="border p-1"> {{ commande.saison }}</div>
+
+            </div>
+        </div>
+        <div class='row mt-5 border-bottom border-primary'>
+            <h4> Informations du client</h4>
+        </div>
+        <div class='row my-4'>
+            <div class='col-4  mx-auto'>
+                <div class="font-weight-bold">Nom du client: </div>
+                <div class="border p-1"> {{ commande.client.nom }}</div>
+
+            </div>
+            <div class='col-4  mx-auto'>
+                <div class="font-weight-bold">Prénom du client: </div>
+                <div class="border p-1"> {{ commande.client.prenom }}</div>
+
+            </div>
+            <div class='col-4  mx-auto'>
+                <div class="font-weight-bold">Société/Manège: </div>
+                <div class="border p-1"> {% if commande.client.societe_manege %}{{ commande.client.societe_manege }}{% else %}N.C{% endif %}</div>
+
+            </div>
+        </div>
+        <div class='row my-4'>
+            <div class='col-12'>
+                <div class="font-weight-bold">Adresse: </div>
+                <div class="border p-1"> {{ commande.client.adresse }} {{ commande.client.code_postal }} {{ commande.client.commune }}</div>
+
+            </div>
+
+        </div>
+        <div class='row my-4'>
+                <div class='col-6  mx-auto'>
+                    <div class="font-weight-bold">Téléphone: </div>
+                    <div class="border p-1"> {{ commande.client.telephone }}</div>
+
+                </div>
+                <div class='col-6  mx-auto'>
+                    <div class="font-weight-bold">Email: </div>
+                    <div class="border p-1"> {{ commande.client.email }}</div>
+
+                </div>
+            </div>
+        <div class='row mt-5 border-bottom border-primary'>
+            <h4> Informations commande</h4>
+        </div>
+         <div class='row my-4'>
+                <div class='col-4  mx-auto'>
+                    <div class="font-weight-bold">Emplacement: </div>
+                    <div class="border p-1"> {{ commande.infos_techniques }}</div>
+
+                </div>
+                <div class='col-4  mx-auto'>
+                    <div class="font-weight-bold">Date de la prise de commande: </div>
+                    <div class="border p-1"> {{ commande.date_commande }}</div>
+
+                </div>
+             <div class='col-4  mx-auto'>
+                    <div class="font-weight-bold">Date de la prise de commande: </div>
+                    <div class="border p-1"> {{ commande.puissance }}</div>
+
+                </div>
+         </div>
+         <div class='row my-4'>
+                <div class='col-4'>
+                    <div class="font-weight-bold">Nombre de jours: </div>
+                    <div class="border p-1"> {{ commande.nb_jours }}</div>
+
+                </div>
+         </div>
+        <div class='row mt-5 border-bottom border-primary'>
+            <h4> Informations Forfait</h4>
+        </div>
+         <div class='row my-4'>
+                <div class='col-4  mx-auto'>
+                    <div class="font-weight-bold">Forfait: </div>
+                    <div class="border p-1"> {{ commande.forfait }}</div>
+
+                </div>
+                <div class='col-4  mx-auto'>
+                    <div class="font-weight-bold">Prix HT: </div>
+                    <div class="border p-1"> {{ commande.forfait.prix_ht }}€</div>
+
+                </div>
+                <div class='col-4  mx-auto'>
+                    <div class="font-weight-bold">Prix TTC: </div>
+                    <div class="border p-1"> {{ commande.forfait.prix_ttc }}€</div>
+
+                </div>
+         </div>
+        <div class='row my-4'>
+                <div class='col-4  mx-auto'>
+                    <div class="font-weight-bold">TVA: </div>
+                    <div class="border p-1"> {{ commande.forfait.taxe}}%</div>
+
+                </div>
+                <div class='col-4  mx-auto'>
+                    <div class="font-weight-bold">Total HT: </div>
+                    <div class="border p-1"> {{ commande.total_ht }}€</div>
+
+                </div>
+                <div class='col-4  mx-auto'>
+                    <div class="font-weight-bold">Total TTC: </div>
+                    <div class="border p-1"> {{ commande.total_ttc }}€</div>
+
+                </div>
+
+         </div>
+         <div class='row my-4'>
+                <div class='col-6  mx-auto d-flex justify-content-start'>
+                    <div class="font-weight-bold col-md-4">Commande payée:</div>
+                    <div class="col-md-4">
+                        {% if commande.payee %}
+                        <input class="form-check-input d-block" id="checkPayee" type="checkbox" checked style="">
+                    {% else %}
+                        <input class="form-check-input" id="checkPayee" type="checkbox">
+                    {% endif %}
+                    </div>
+                </div>
+
+                <div class='col-6  mx-auto d-flex justify-content-start'>
+                    <div class="font-weight-bold text-center col-md-8">Commande traitée par l'acheminement: </div>
+                    <div class="col-md-4">
+                    {% if commande.traite_ach %}
+                        <input class="form-check-input mx-auto" id="checkAch" type="checkbox" checked>
+                    {% else %}
+                        <input class="form-check-input" id="checkAch" type="checkbox">
+                    {% endif %}
+                    </div>
+                </div>
+
+
+         </div>
+        <input hidden id="commandeID" value="{{ commande.id }}">
+         <div class="d-flex my-5 bd-highlight justify-content-start ">
+            <div class=" mr-2 align-items-end">
+                <a class="btn btn-secondary" href="{% url 'commandes' %}">Retour</a>
+            </div>
+            <div class=" ml-2 align-items-end">
+                <a href="{% url 'commande_pdf' commande.id %}" class="btn btn-success">Imprimer</a>
+            </div>
+             <div class=" ml-2 align-items-end">
+                <button class="btn btn-primary" id="buttonCreate" type='submit'>Modifier</button>
+            </div>
+         </div>
+
+
+    </div>
+
+{% endblock %}
+{% block linkScript %}
+<script src="{% static 'general/js/scriptGeneral.js' %}"></script>
+{% endblock %}

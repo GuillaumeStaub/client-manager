@@ -107,3 +107,90 @@ function resultSearchClients(data) {
 $('#search_client').keyup(()=>{
     ajax_search(document.querySelector('#search_client').value,resultSearchClients);
 })
+
+function ajax_payee(dataToSend1, dataToSend2){
+
+    $.ajax({
+        url:'/ajax_payee',
+        type: 'GET',
+        data:{'payee':dataToSend1, 'id_commande':dataToSend2},
+        success:(data)=>{
+            console.log("Order updated");
+
+        },
+        error :() =>{
+            console.log('Il y a une erreur')
+    }
+
+
+    });
+
+};
+function ajax_payee(dataToSend1, dataToSend2){
+
+    $.ajax({
+        url:'/ajax_payee',
+        type: 'GET',
+        data:{'payee':dataToSend1, 'id_commande':dataToSend2},
+        success:(data)=>{
+            console.log("Order updated");
+
+        },
+        error :(data) =>{
+            if (data.payee) {
+                $('#checkPayee').attr('checked', 'checked')
+            }else{
+                $('#checkPayee').removeAttr('checked')
+            }
+    }
+
+
+    });
+
+};
+function ajax_traitee(dataToSend1, dataToSend2){
+
+    $.ajax({
+        url:'/ajax_ach',
+        type: 'GET',
+        data:{'traitee':dataToSend1, 'id_commande':dataToSend2},
+        success:(data)=>{
+            console.log("Order updated");
+
+        },
+        error :(data) =>{
+            if (data.payee) {
+                $('#checkAch').attr('checked', 'checked')
+            }else{
+                $('#checkAch').removeAttr('checked')
+            }
+    }
+
+
+    });
+
+};
+
+$('#checkPayee').change(function() {
+    let payee;
+    let id_commande = $('#commandeID').val()
+    if (this.checked) {
+        payee = true;
+        ajax_payee(payee, id_commande)
+    } else {
+        let payee = false;
+        ajax_payee(payee, id_commande)
+    }
+});
+
+$('#checkAch').change(function() {
+    let traitee;
+    let id_commande = $('#commandeID').val()
+    if (this.checked) {
+        traitee = true;
+        ajax_traitee(traitee, id_commande)
+    } else {
+        let traitee = false;
+        ajax_traitee(traitee, id_commande)
+    }
+});

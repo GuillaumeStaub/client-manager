@@ -214,7 +214,7 @@ class ClientsCreateViewTest(TestCase):
         self.client.post(reverse('create_client'), data)
         self.assertEqual(Client.objects.last().id, 73)
         self.assertEqual(Commande.objects.last().id, 5)
-        self.assertEqual(Commande.objects.last().client.id, 72)
+        self.assertEqual(Commande.objects.last().client.id, 73)
 
     def test_view_inlines_in_context(self):
         self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
@@ -547,13 +547,9 @@ class CommandesListViewTest(TestCase):
                                     infos_techniques=infos_techniques,
                                     evenement=event, payee=True)
 
-
-
-
     def test_redirect_if_not_logged_in(self):
         response = self.client.get(reverse('commandes'))
         self.assertRedirects(response, '/users/login/?next=/commandes/')
-
 
     def test_view_url_exists_at_desired_location(self):
         self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
@@ -624,3 +620,51 @@ class CommandesListViewTest(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser1')
         self.assertTrue('field_names' in response.context)
         assert response.context['field_names'] == ['Evènement', 'Saison', 'Client', 'Payée', 'Traitée par ACH', 'Date']
+
+
+class CommandesDetailViewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # Create two users
+        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
+
+        test_user1.save()
+        client = Client.objects.create(nom='Rodriguez', prenom='Jean', adresse='13 rue de la paix', code_postal=75000,
+                                       commune='Paris', telephone='0600112233', email='jean.villard@yahooo.com', )
+        infos_techniques = InfosTechniques.objects.create(matricule_compteur='674', num_armoire='CH02')
+        saison = Saison.objects.create(nom='2020 - Octobre')
+        forfait = Forfait.objects.create(nom='Forfait 2', description='Puissance inférieure à 18kVA', prix_ht=14.17,
+                                         taxe=20.00,
+                                         prix_ttc=17.00, saison=saison)
+        event = Evenement.objects.create(nom='Brocante des Quinquonces', ville='Bordeaux', type='Brocante')
+
+        Commande.objects.create(saison=saison, puissance=18, forfait=forfait, nb_jours=23, client=client,
+                                infos_techniques=infos_techniques,
+                                evenement=event, payee=True)
+
+    def test_redirect_if_not_logged_in(self):
+        id_commande = Commande.objects.last().id
+        response = self.client.get(reverse('comande_detail', kwargs={'pk': id_commande}))
+        self.assertRedirects(response, '/users/login/?next=/commande/{}'.format(id_commande))
+
+    def test_view_url_exists_at_desired_location(self):
+        id_commande = Commande.objects.last().id
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get('/commande/{}'.format(id_commande))
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        assert response.status_code == 200
+
+    def test_view_url_accessible_by_name(self):
+        id_commande = Commande.objects.last().id
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('comande_detail', kwargs={'pk': id_commande}))
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        assert response.status_code == 200
+
+    def test_view_uses_correct_template(self):
+        id_commande = Commande.objects.last().id
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('comande_detail', kwargs={'pk': id_commande}))
+        assert response.status_code == 200
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        self.assertTemplateUsed(response, 'general/commande_detail.html')

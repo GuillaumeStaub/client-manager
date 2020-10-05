@@ -169,14 +169,20 @@
                                      <div class="form-group col-4">
                                         {% crispy_addon form.total_ttc  append="€" %}
                                     </div>
-                                    <div class="form-group col-4 align-self-end">
+
+                                </div>
+                                <div class="form-row">
+                                      <div class="form-group col-4">
                                         {{ form.payee|as_crispy_field }}
+                                    </div>
+                                     <div class="form-group col-4">
+                                        {{ form.traite_ach|as_crispy_field }}
                                     </div>
                                 </div>
                                      <div class="d-flex mb-3 mt-0 bd-highlight justify-content-end ">
                         <div class=" mr-2 align-items-end">
                             {% if form.instance.id %}
-                                <a class="btn btn-secondary" href="{% url 'commande_pdf' form.instance.id  %}">Imprimer </a>
+                                <a class="btn btn-success" href="{% url 'commande_pdf' form.instance.id  %}">Imprimer </a>
                             {% endif %}
 
                         </div>

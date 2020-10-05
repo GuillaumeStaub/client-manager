@@ -244,8 +244,13 @@
             <td class="total">{{TVA_calc}}€</td>
           </tr>
         <tr class="colored" id="general">
-            <td> </td>
-            <td> </td>
+            <td style="font-weight: bold">Commande payée: </td>
+            <td>{% if commande.payee %}
+                <span style="font-weight: bold">Oui</span>
+                    {% else %}
+                        <span style="font-weight: bold">Non</span>
+                    {% endif %}
+                     </td>
             <td> </td>
             <td> </td>
             <td> </td>

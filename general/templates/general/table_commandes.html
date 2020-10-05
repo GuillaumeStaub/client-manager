@@ -17,7 +17,7 @@
                 <a target="_blank" href="{% url 'commande_pdf' commande.id %}" type="button" class="btn btn-success"><i class="fas fa-print text-white"></i></a>
             </td>
             <td>
-                <a class="btn btn-primary " href=""><i class="fas fa-search text-white"></i></a>
+                <a class="btn btn-primary " href="{% url 'comande_detail' commande.id %}"><i class="fas fa-search text-white"></i></a>
             </td>
 
               <td>{{ commande.evenement }}</td>

@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.conf import settings
-from .forms import ClientForm
+import json
+from .forms import ClientForm, CommandeForm
 from .models import Client, Commande, Forfait
 from django.db.models import Q
 from django.db.models import Sum
 from django.views.generic import ListView
 from django.urls import reverse_lazy
-from django.views.generic import DeleteView, DetailView
+from django.views.generic import DeleteView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -134,7 +135,7 @@ class CommandePDFView(LoginRequiredMixin, PDFTemplateResponseMixin, DetailView):
         return context
 
 
-class CommandesView(LoginRequiredMixin, ListView):
+class CommandesViewList(LoginRequiredMixin, ListView):
     model = Commande
     context_object_name = "commandes"
     template_name = "general/commandes_list.html"
@@ -150,3 +151,32 @@ class CommandesView(LoginRequiredMixin, ListView):
             'total_ttc__sum']
         context['field_names'] = ['Evènement', 'Saison', 'Client', 'Payée', 'Traitée par ACH', 'Date']
         return context
+
+
+class CommandeDetailView(LoginRequiredMixin, DetailView):
+    model = Commande
+    template_name = 'general/commande_detail.html'
+
+
+def ajax_payee(request):
+    if request.method == 'GET':
+        if request.GET['payee'] and request.GET['id_commande']:
+            Commande.objects.filter(pk=request.GET['id_commande']).update(payee=json.loads(request.GET['payee']))
+            response = JsonResponse({})
+            response.status_code = 200  # To announce that the user isn't allowed to publish
+            return response
+    response = JsonResponse({'payee': request.GET['payee']})
+    response.status_code = 400  # To announce that the user isn't allowed to publish
+    return response
+
+def ajax_ach(request):
+    if request.method == 'GET':
+        print(json.loads(request.GET['traitee']))
+        if request.GET['traitee'] and request.GET['id_commande']:
+            Commande.objects.filter(pk=request.GET['id_commande']).update(traite_ach=json.loads(request.GET['traitee']))
+            response = JsonResponse({})
+            response.status_code = 200  # To announce that the user isn't allowed to publish
+            return response
+    response = JsonResponse({'traitee': request.GET['payee']})
+    response.status_code = 400  # To announce that the user isn't allowed to publish
+    return response
