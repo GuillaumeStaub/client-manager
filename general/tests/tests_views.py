@@ -179,7 +179,7 @@ class ClientsCreateViewTest(TestCase):
             data[key] = value
 
         self.client.post(reverse('create_client'), data)
-        self.assertEqual(Client.objects.last().id, 71)
+        self.assertEqual(Client.objects.last().id, 72)
 
     def test_create_client_and_command(self):
         self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
@@ -212,8 +212,8 @@ class ClientsCreateViewTest(TestCase):
             data[key] = value
 
         self.client.post(reverse('create_client'), data)
-        self.assertEqual(Client.objects.last().id, 72)
-        self.assertEqual(Commande.objects.last().id, 4)
+        self.assertEqual(Client.objects.last().id, 73)
+        self.assertEqual(Commande.objects.last().id, 5)
         self.assertEqual(Commande.objects.last().client.id, 72)
 
     def test_view_inlines_in_context(self):
@@ -478,6 +478,7 @@ class ClientsSearchViewTest(TestCase):
                 commune='Bordeaux',
                 telephone=f'07875478{client_id}',
             )
+
     def test_redirect_if_not_logged_in(self):
         response = self.client.get('/ajax_search/client/')
         self.assertRedirects(response, '/users/login/?next=/ajax_search/client/')
@@ -521,3 +522,105 @@ class ClientsSearchViewTest(TestCase):
         assert response.status_code == 200
         for client in range(10):
             self.assertContains(response, f'<td>Surname {client}</td>')
+
+
+class CommandesListViewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # Create two users
+        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
+
+        test_user1.save()
+        client = Client.objects.create(nom='Rodriguez', prenom='Jean', adresse='13 rue de la paix', code_postal=75000,
+                                       commune='Paris', telephone='0600112233', email='jean.villard@yahooo.com', )
+        infos_techniques = InfosTechniques.objects.create(matricule_compteur='674', num_armoire='CH02')
+        saison = Saison.objects.create(nom='2020 - Octobre')
+        forfait = Forfait.objects.create(nom='Forfait 2', description='Puissance inférieure à 18kVA', prix_ht=14.17,
+                                         taxe=20.00,
+                                         prix_ttc=17.00, saison=saison)
+        event = Evenement.objects.create(nom='Brocante des Quinquonces', ville='Bordeaux', type='Brocante')
+        # Create 62 Clients for pagination tests
+        number_of_commandes = 62
+
+        for commande_id in range(number_of_commandes):
+            Commande.objects.create(saison=saison, puissance=18, forfait=forfait, nb_jours=23, client=client,
+                                    infos_techniques=infos_techniques,
+                                    evenement=event, payee=True)
+
+
+
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get(reverse('commandes'))
+        self.assertRedirects(response, '/users/login/?next=/commandes/')
+
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get('/commandes/')
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        assert response.status_code == 200
+
+    def test_view_url_accessible_by_name(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('commandes'))
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        assert response.status_code == 200
+
+    def test_view_uses_correct_template(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('commandes'))
+        assert response.status_code == 200
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        self.assertTemplateUsed(response, 'general/commandes_list.html')
+
+    def test_pagination_is_fiveteen(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('commandes'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('is_paginated' in response.context)
+        self.assertTrue(response.context['is_paginated'] == True)
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        self.assertTrue(len(response.context['commandes']) == 50)
+
+    def test_lists_all_commandes(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        # Get second page and confirm it has (exactly) remaining 12 items
+        response = self.client.get(reverse('commandes') + '?page=2')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        self.assertTrue('is_paginated' in response.context)
+        self.assertTrue(response.context['is_paginated'] == True)
+        self.assertTrue(len(response.context['commandes']) == 12)
+
+    def test_nb_commandes_in_context(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('commandes'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        self.assertTrue('nb_commandes' in response.context)
+        self.assertTrue(response.context['nb_commandes'] == 62)
+
+    def test_total_commandes_in_context(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('commandes'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        self.assertTrue('total_commandes_payee' in response.context)
+        assert float(response.context['total_commandes_payee']) == 24242.00
+
+    def test_nb_commandes_non_payee_in_context(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('commandes'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        self.assertTrue('total_commandes_non_payee' in response.context)
+        assert response.context['total_commandes_non_payee'] == None
+
+    def test_field_names_in_context(self):
+        self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('commandes'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        self.assertTrue('field_names' in response.context)
+        assert response.context['field_names'] == ['Evènement', 'Saison', 'Client', 'Payée', 'Traitée par ACH', 'Date']

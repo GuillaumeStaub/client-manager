@@ -1,0 +1,76 @@
+
+<table class = 'table table-hover mx-auto'>
+    <thead>
+        <tr class="text-center">
+            <th scope="col"> </th>
+            <th scope="col"> </th>
+            {% for field in field_names %}
+            <th scope="col">{{ field }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for commande in commandes %}
+        <tr class="text-center">
+            <td>
+
+                <a target="_blank" href="{% url 'commande_pdf' commande.id %}" type="button" class="btn btn-success"><i class="fas fa-print text-white"></i></a>
+            </td>
+            <td>
+                <a class="btn btn-primary " href=""><i class="fas fa-search text-white"></i></a>
+            </td>
+
+              <td>{{ commande.evenement }}</td>
+              <td>{{ commande.saison }}</td>
+              <td>{{ commande.client.nom }}</td>
+              <td>
+                  {% if  commande.payee %}
+                      <input class="form-check-input" type="checkbox" value=""  checked disabled>
+                  {% else %}
+                      <input class="form-check-input" type="checkbox" value=""   disabled>
+                  {% endif %}
+              </td>
+              <td>
+                  {% if  commande.traite_ach %}
+                      <input class="form-check-input" type="checkbox" value="" checked disabled>
+                  {% else %}
+                      <input class="form-check-input" type="checkbox" value=""   disabled>
+                  {% endif %}
+              </td>
+             <td>{{ commande.date_commande }}</td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+
+
+</table>
+{% if is_paginated %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item {% if not page_obj.has_previous %}
+           disabled {% endif %} ">
+                <a class="page-link" href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% endif %}" aria-label="Previous">
+
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+
+            {% for foo in paginator.page_range %}
+                <li class="page-item {% if foo == page_obj.number %}active
+                {% endif %} "><a class="page-link" href="?page={{ foo }}">{{ foo }}</a></li>
+            {% endfor %}
+
+
+
+            <li class="page-item {% if not page_obj.has_next %}
+           disabled {% endif %}">
+                <a class="page-link" href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% endif %}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+{% endif %}

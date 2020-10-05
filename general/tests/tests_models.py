@@ -133,7 +133,7 @@ class SaisonModelTest(TestCase):
     def test_object_verbose_name_plural(self):
         saison = Saison.objects.get(nom='2020 - Septembre')
         verbose_name_plural = saison._meta.verbose_name_plural
-        assert verbose_name_plural == "Périodes"
+        assert verbose_name_plural == "Saisons"
 
     def test_object_name_is_nom(self):
         saison = Saison.objects.get(nom='2020 - Septembre')
@@ -427,6 +427,16 @@ class CommandeModelTest(TestCase):
         field_label = commande._meta.get_field('infos_techniques').verbose_name
         assert field_label == 'Informations techniques'
 
+    def test_date_commande_label(self):
+        commande = Commande.objects.get(id=1)
+        field_label = commande._meta.get_field('date_commande').verbose_name
+        assert field_label == 'Date Commande'
+
+    def test_traite_ach_label(self):
+        commande = Commande.objects.get(id=1)
+        field_label = commande._meta.get_field('traite_ach').verbose_name
+        assert field_label == 'Traitée ACH'
+
     def test_total_ht_label(self):
         commande = Commande.objects.get(id=1)
         field_label = commande._meta.get_field('total_ht').verbose_name
@@ -511,3 +521,20 @@ class CommandeModelTest(TestCase):
                                            infos_techniques=infos_techniques, total_ht=325.91, total_ttc=391.00, evenement=event)
         expected_object_name = f'{commande.saison} - {commande.client.nom} {commande.client.prenom}'
         assert expected_object_name == str(commande)
+
+    def test_date_debut_now_is_default_value(self):
+        with freeze_time(FAKE_TIME) as frozen_datetime:
+            infos_techniques = InfosTechniques.objects.create(matricule_compteur='674', num_armoire='CH02')
+            saison = Saison.objects.create(nom='2020 - Octobre')
+            forfait = Forfait.objects.create(nom='Forfait 2', description='Puissance inférieure à 18kVA', prix_ht=14.17,
+                                             taxe=20.00,
+                                             prix_ttc=17.00, saison=saison)
+            client = Client.objects.create(nom='Rodriguez', prenom='Jean', adresse='13 rue de la paix',
+                                           code_postal=75000,
+                                           commune='Paris', telephone='0600112233', email='jean.villard@yahooo.com', )
+            event = Evenement.objects.create(nom='Brocante des Quinquonces', ville='Bordeaux', type='Brocante')
+            commande = Commande.objects.create(saison=saison, puissance=18, forfait=forfait, nb_jours=23, client=client,
+                                               infos_techniques=infos_techniques, total_ht=325.91, total_ttc=391.00,
+                                               evenement=event)
+            default_value = commande._meta.get_field('date_commande').default
+            assert frozen_datetime() == FAKE_TIME

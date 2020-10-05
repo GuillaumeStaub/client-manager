@@ -49,8 +49,8 @@ class Saison(models.Model):
     nb_jours = models.IntegerField(default=23, verbose_name='Nombre de jours')
 
     class Meta:
-        verbose_name_plural = "Périodes"
-        verbose_name = "Période"
+        verbose_name_plural = "Saisons"
+        verbose_name = "Saison"
 
     def __str__(self):
         return self.nom
@@ -132,7 +132,7 @@ class Commande(models.Model):
     forfait = models.ForeignKey(Forfait, on_delete=models.PROTECT)
     nb_jours = models.IntegerField(default=23, verbose_name='Nombre de jours')
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='client')
-    infos_techniques = models.ForeignKey(InfosTechniques, null=True, on_delete=models.PROTECT,
+    infos_techniques = models.ForeignKey(InfosTechniques, blank=True, null=True, on_delete=models.PROTECT,
                                          verbose_name="Informations techniques")
     total_ht = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     total_ttc = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)

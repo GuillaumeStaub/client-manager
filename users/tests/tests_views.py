@@ -33,7 +33,7 @@ class UsersLoginTest(TestCase):
     def test_login_correct_redirect(self):
         response = self.client.post('/users/login/', self.credentials, follow=True)
         self.assertEqual(response.status_code, 200)
-        self.assertRedirects(response, 'http://127.0.0.1:8000')
+        self.assertRedirects(response, '/')
 
 
 class LogoutViewTest(TestCase):
