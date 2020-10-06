@@ -35,7 +35,9 @@ function forfaitChangeData(data, index) {
     document.querySelector('#prix_TTC'+index).value = data.forfait_price_ttc;
     document.querySelector('#taxe'+index).value = data.forfait_taxe;
     let nb_jours = document.querySelector('#id_client-'+index+'-nb_jours').value;
+    document.querySelector('#id_client-'+index+'-total_ht').value = (data.forfait_price_ht * nb_jours).toFixed(2)
     document.querySelector('#id_client-'+index+'-total_ttc').value = calc_total(data.forfait_price_ht,data.forfait_taxe, nb_jours )
+
 };
 
 function ajax_forfait(dataToSend, callback, index){
@@ -64,7 +66,18 @@ $( "div[id^='commande_client']" ).each(function( index ) {
     }
   $("#id_client-"+index+"-forfait").change(function (){
         ajax_forfait(document.querySelector("#id_client-"+index+"-forfait").value,forfaitChangeData, index)
-        }
+
+        if($("#id_client-"+index+"-forfait").val()==='Forfait 1'){
+            $("#id_client-"+index+"-puissance").val(1)
+        }else if ($("#id_client-"+index+"-forfait").val() === 'Forfait 2'){
+            $("#id_client-"+index+"-puissance").val(19)
+        }else if ($("#id_client-"+index+"-forfait").val() === 'Forfait 3'){
+            $("#id_client-"+index+"-puissance").val(37)
+        }else if ($("#id_client-"+index+"-forfait").val() === 'Forfait 4'){
+            $("#id_client-"+index+"-puissance").val(121)
+    }else {
+            $("#id_client-"+index+"-puissance").val(0)
+        }}
     );
 
     $("#id_client-"+index+"-nb_jours").change(function (){
@@ -75,6 +88,20 @@ $( "div[id^='commande_client']" ).each(function( index ) {
     document.querySelector('#id_client-'+index+'-total_ttc').value = calc_total(prix_ht,taxe, nb_jours )
         }
     );
+    $("#id_client-"+index+"-puissance").change(function () {
+        if($("#id_client-"+index+"-puissance").val()<18){
+            $("#id_client-"+index+"-forfait").val('Forfait 1')
+        }else if ($("#id_client-"+index+"-puissance").val() >18){
+            $("#id_client-"+index+"-forfait").val('Forfait 2')
+        }else if ($("#id_client-"+index+"-puissance").val() > 36){
+            $("#id_client-"+index+"-forfait").val('Forfait 3')
+        }else if ($("#id_client-"+index+"-puissance").val() > 120){
+            $("#id_client-"+index+"-forfait").val('Forfait 4')
+        }else{
+            $("#id_client-"+index+"-forfait").val('---------')
+        }
+        ajax_forfait(document.querySelector("#id_client-"+index+"-forfait").value,forfaitChangeData, index)
+    });
 
 });
 
@@ -106,6 +133,30 @@ function resultSearchClients(data) {
 
 $('#search_client').keyup(()=>{
     ajax_search(document.querySelector('#search_client').value,resultSearchClients);
+})
+
+function ajax_search_commande(dataToSend, callback){
+
+    $.ajax({
+        url:'/ajax_search/commande',
+        type: 'GET',
+        data:{'q':dataToSend},
+        success:(data)=>{
+            callback(data.html_from_view);
+
+        },
+        error :() =>{
+            console.log('Il y a une erreur')
+    }
+
+
+    });
+
+};
+
+
+$('#searchCommande').keyup(()=>{
+    ajax_search_commande($('#searchCommande').val(),resultSearchClients);
 })
 
 function ajax_payee(dataToSend1, dataToSend2){
@@ -194,3 +245,4 @@ $('#checkAch').change(function() {
         ajax_traitee(traitee, id_commande)
     }
 });
+

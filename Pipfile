@@ -23,6 +23,10 @@ whitenoise = "*"
 dj-database-url = "*"
 python-dotenv = "*"
 django-easy-pdf = "*"
+django-bootstrap3 = "*"
+django-pure-pagination = "*"
+django-popcrud = "*"
+django-popupcrud = "==0.12.0"
 
 [requires]
 python_version = "3.7"

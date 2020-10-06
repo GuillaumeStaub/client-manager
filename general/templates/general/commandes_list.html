@@ -41,14 +41,14 @@
 
         <div class="row col-md-12 d-flex flex-row justify-content-between  flex-md-wrap">
         <div class="form-inline col-8 col-md-5 my-3">
-         <input class="form-control col-8 col-md-6" type="search" id="search_client" placeholder="Rechercher" aria-label="Search">
+         <input class="form-control col-8 col-md-6" type="search" id="searchCommande" placeholder="Rechercher" aria-label="Search">
           <button class="btn btn-outline-success col-4 col-md-4" id="search_1" type="submit">Rechercher</button>
             <button class="btn btn-outline-success col-4 col-md-3" id="search_2"type="submit"><i class="fas fa-search"></i></button>
 
         </div>
         <div class="col-3 col-md-6 my-3 d-flex justify-content-end">
-        <a href="{% url 'create_client' %}" id="add_1"><button class=" btn btn-success"><i class="fas fa-plus"></i> Ajouter une Commande</button></a>
-        <a href="{% url 'create_client' %}" id="add_2" ><button class=" btn btn-success"><i class="fas fa-plus"></i></button></a>
+        <a href="{% url 'commande_create' %}" id="add_1"><button class=" btn btn-success"><i class="fas fa-plus"></i> Ajouter une Commande</button></a>
+        <a href="{% url 'commande_create' %}" id="add_2" ><button class=" btn btn-success"><i class="fas fa-plus"></i></button></a>
         </div>
         </div>
     <div class="table-responsive">

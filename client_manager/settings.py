@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'easy_pdf',
     'users',
 
+
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -150,3 +151,6 @@ MONTHS = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout
           'Decembre']
 
 
+POPUPCRUD = {
+'base_template': 'base.html',
+}

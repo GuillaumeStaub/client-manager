@@ -175,7 +175,7 @@
                 <a href="{% url 'commande_pdf' commande.id %}" class="btn btn-success">Imprimer</a>
             </div>
              <div class=" ml-2 align-items-end">
-                <button class="btn btn-primary" id="buttonCreate" type='submit'>Modifier</button>
+                <a class="btn btn-primary" id="buttonCreate" href="{% url 'comande_update' commande.id %}">Modifier</a>
             </div>
          </div>
 

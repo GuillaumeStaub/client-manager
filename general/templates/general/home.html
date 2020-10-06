@@ -16,7 +16,9 @@
             </div>
             <div class="card bg-secondary text-white mb-4 col-md-3">
                 <div class="card-header"><h6 class="text-center">Total des commandes</h6></div>
-                <div class="card-body"><h5 class="text-center">{{ total_commandes}}€</h5></div>
+                <div class="card-body"><h5 class="text-center">{% if total_commandes %}
+                    {{ total_commandes}}€ {% else %} 0.00€
+                {% endif %} </h5></div>
 
             </div>
             <div class="card bg-success text-white mb-4 col-md-3">
