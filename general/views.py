@@ -15,7 +15,6 @@ from django.template.loader import render_to_string
 from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSetFactory
 from easy_pdf.views import PDFTemplateResponseMixin
 from datetime import datetime
-from popupcrud.views import PopupCrudViewSet
 
 
 class HomeView(LoginRequiredMixin, ListView):
