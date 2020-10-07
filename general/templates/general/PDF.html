@@ -202,9 +202,19 @@
         </thead>
         <tbody>
           <tr class="colored">
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
+            <td>{% if commande.infos_techniques.num_armoire %}
+                {{ commande.infos_techniques.num_armoire}}
+                {% else %} N.C
+            {% endif %} }</td>
+            <td>{% if commande.infos_techniques.emplacement %}
+                {{ commande.infos_techniques.emplacement}}
+                {% else %}N.C
+
+            {% endif %} </td>
+            <td>{% if commande.infos_techniques.matricule_compteur %}
+                {{ commande.infos_techniques.matricule_compteur}}{% else %}N.C
+
+            {% endif %} </td>
           </tr>
 
         </tbody>
