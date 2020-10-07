@@ -14,17 +14,17 @@
         <tr>
             <td>
 
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete"><i class="fas fa-trash-alt text-white"></i></button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete{{ client.id }}"><i class="fas fa-trash-alt text-white"></i></button>
             </td>
             <td>
                 <a class="btn btn-primary " href="{% url 'update_client' client.id %}"><i class=" fas fa-pencil-alt text-white" ></i></a>
             </td>
-              <td>{{ client.nom }}</td>
+              <td>{{ client.nom }}  {{  client.id }}</td>
               <td>{{ client.prenom }}</td>
               <td >{{ client.telephone }}</td>
               <td>{{ client.commune}}</td>
         </tr>
-        <div class="modal fade" id="confirmDelete">
+        <div class="modal fade" id="confirmDelete{{ client.id }}">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

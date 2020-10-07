@@ -63,8 +63,6 @@ class ClientDelete(LoginRequiredMixin, DeleteView):
     model = Client
     success_url = reverse_lazy('home')
 
-    def get(self, request, *args, **kwargs):
-        return self.delete(request, *args, **kwargs)
 
 
 class UpdateClientView(LoginRequiredMixin, UpdateWithInlinesView):
