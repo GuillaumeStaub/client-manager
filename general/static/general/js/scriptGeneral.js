@@ -85,7 +85,8 @@ $( "div[id^='commande_client']" ).each(function( index ) {
     let prix_ttc = document.querySelector('#prix_TTC'+index).value;
     let taxe = document.querySelector('#taxe'+index).value
     let nb_jours = document.querySelector('#id_client-'+index+'-nb_jours').value;
-    document.querySelector('#id_client-'+index+'-total_ttc').value = calc_total(prix_ht,taxe, nb_jours )
+    document.querySelector('#id_client-'+index+'-total_ttc').value = calc_total(prix_ht,taxe, nb_jours );
+    document.querySelector('#id_client-'+index+'-total_ht').value = (prix_ht * nb_jours).toFixed(2)
         }
     );
     $("#id_client-"+index+"-puissance").change(function () {
