@@ -92,9 +92,9 @@ $( "div[id^='commande_client']" ).each(function( index ) {
     $("#id_client-"+index+"-puissance").change(function () {
         if($("#id_client-"+index+"-puissance").val()<=18){
             $("#id_client-"+index+"-forfait").val('Forfait 1')
-        }else if ($("#id_client-"+index+"-puissance").val() >18){
+        }else if ($("#id_client-"+index+"-puissance").val() >18 && $("#id_client-"+index+"-puissance").val()<37 ){
             $("#id_client-"+index+"-forfait").val('Forfait 2')
-        }else if ($("#id_client-"+index+"-puissance").val() > 36){
+        }else if ($("#id_client-"+index+"-puissance").val() > 36 && $("#id_client-"+index+"-puissance").val()<121 ){
             $("#id_client-"+index+"-forfait").val('Forfait 3')
         }else if ($("#id_client-"+index+"-puissance").val() > 120){
             $("#id_client-"+index+"-forfait").val('Forfait 4')

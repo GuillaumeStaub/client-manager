@@ -90,9 +90,9 @@ $('#id_forfait').change(function(){
 $("#id_puissance").change(function () {
         if($("#id_puissance").val()<=18){
             $("#id_forfait").val('Forfait 1')
-        }else if ($("#id_puissance").val() >=19){
+        }else if ($("#id_puissance").val() >=19 && $("#id_puissance").val()<37 ){
             $("#id_forfait").val('Forfait 2')
-        }else if ($("#id_puissance").val() >= 37){
+        }else if ($("#id_puissance").val() >= 37 && $("#id_puissance").val()<121){
             $("#id_forfait").val('Forfait 3')
         }else if ($("#id_puissance").val() >= 121){
             $("#id_forfait").val('Forfait 4')
