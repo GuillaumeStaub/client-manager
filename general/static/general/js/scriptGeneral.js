@@ -89,7 +89,7 @@ $( "div[id^='commande_client']" ).each(function( index ) {
         }
     );
     $("#id_client-"+index+"-puissance").change(function () {
-        if($("#id_client-"+index+"-puissance").val()<18){
+        if($("#id_client-"+index+"-puissance").val()<=18){
             $("#id_client-"+index+"-forfait").val('Forfait 1')
         }else if ($("#id_client-"+index+"-puissance").val() >18){
             $("#id_client-"+index+"-forfait").val('Forfait 2')
