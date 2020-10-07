@@ -1,6 +1,5 @@
 from django import forms
-from .models import Client,Commande
-
+from .models import Client, Commande
 
 
 class ClientForm(forms.ModelForm):
@@ -14,6 +13,7 @@ class ClientForm(forms.ModelForm):
             instance.action_on_save = True
             instance.save()
         return instance
+
 
 class CommandeForm(forms.ModelForm):
     class Meta:

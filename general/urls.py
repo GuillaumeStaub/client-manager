@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('commandes/', views.CommandesViewList.as_view(), name='commandes'),
@@ -17,4 +18,5 @@ urlpatterns = [
     path('ajax_ach/', views.ajax_ach, name='ajax_ach'),
     path('commande/pdf/<int:pk>', views.CommandePDFView.as_view(), name='commande_pdf'),
     path('ajax_infos_client', views.ajax_infos_client, name='infos_client'),
+
 ]

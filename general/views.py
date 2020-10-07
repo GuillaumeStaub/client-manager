@@ -87,16 +87,14 @@ def ajax_forfait(request):
             forfait_price_ht = forfait.prix_ht
             forfait_price_ttc = forfait.prix_ttc
             forfait_taxe = forfait.taxe
+            forfait_description = forfait.description
             response = JsonResponse({"forfait_price_ht": forfait_price_ht, "forfait_price_ttc": forfait_price_ttc,
-                                     "forfait_taxe": forfait_taxe})
+                                     "forfait_taxe": forfait_taxe, "forfait_description": forfait_description})
             response.status_code = 200  # To announce that the user isn't allowed to publish
             return response
         else:
-            forfait_price_ht = 0.00
-            forfait_price_ttc = 0.00
-            forfait_taxe = 20.00
-            response = JsonResponse({"forfait_price_ht": forfait_price_ht, "forfait_price_ttc": forfait_price_ttc,
-                                     "forfait_taxe": forfait_taxe})
+            response = JsonResponse({"forfait_price_ht": 0.00, "forfait_price_ttc": 0.00,
+                                     "forfait_taxe": 20.00, "forfait_description": ""})
             response.status_code = 200  # To announce that the user isn't allowed to publish
             return response
 
