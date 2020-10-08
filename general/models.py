@@ -130,7 +130,7 @@ class Commande(models.Model):
     evenement = models.ForeignKey(Evenement, on_delete=models.PROTECT)
     puissance = models.IntegerField(default=0, help_text='Puissance en KvA', )
     forfait = models.ForeignKey(Forfait, on_delete=models.PROTECT)
-    nb_jours = models.IntegerField(default=23, verbose_name='Nombre de jours')
+    nb_jours = models.IntegerField(default=16, verbose_name='Nombre de jours')
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='client')
     infos_techniques = models.ForeignKey(InfosTechniques, blank=True, null=True, on_delete=models.PROTECT,
                                          verbose_name="Informations techniques")

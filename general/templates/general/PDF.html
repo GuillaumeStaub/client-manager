@@ -142,6 +142,10 @@
           padding: 8px 0;
           text-align: left;
         }
+        .notice{
+            font-size: 0.8rem;
+            margin-top: 0;
+        }
     </style>
   </head>
   <body>
@@ -271,12 +275,22 @@
 
         </tbody>
       </table>
-      <div id="lieuDate">
-        <div class="notice">Fait à .......................................... le ......./......./.......</div>
-      </div>
-      <div id="signature">
-        <div class="notice">Signature précédée de la mention <q>lu et approuvé</q></div>
-      </div>
+    <table>
+        <thead>
+          <tr>
+            <th class=""></th>
+            <th class=""></th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="font-weight: bold">Fait à Bordeaux le {% now "SHORT_DATE_FORMAT" %}</td>
+                <td style="font-weight: bold">Signature précédée de la mention <q>lu et approuvé</q></td>
+            </tr>
+
+        </tbody>
+      </table>
+
     </main>
     <p style="font-size: 0.7rem; margin-top: 70px">Enedis est une entreprise de service public, gestionnaire du réseau de distribution d’électricité.
         Elle développe, exploite, modernise le réseau électrique et gère les données associées.
