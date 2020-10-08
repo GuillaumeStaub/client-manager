@@ -31,7 +31,8 @@ class HomeView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['nb_clients'] = Client.objects.count()
         context['total_commandes'] = Commande.objects.filter(payee=True).aggregate(Sum('total_ttc'))['total_ttc__sum']
-        context['nb_commandes'] = Commande.objects.count()
+        context['total_commandes_non_payee'] = Commande.objects.filter(payee=False).aggregate(Sum('total_ttc'))[
+            'total_ttc__sum']
         context['field_names'] = ['Nom', 'Prenom', 'Téléphone', 'Commune']
         return context
 
