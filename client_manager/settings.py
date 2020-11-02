@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'easy_pdf',
     'users',
-    'django_filters'
+
 
 
 ]

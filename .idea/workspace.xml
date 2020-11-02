@@ -125,7 +125,7 @@
       <workItem from="1600980460797" duration="16834000" />
       <workItem from="1601311651064" duration="119116000" />
       <workItem from="1602508988030" duration="3888000" />
-      <workItem from="1604324865070" duration="488000" />
+      <workItem from="1604324865070" duration="786000" />
     </task>
     <task id="LOCAL-00001" summary="Initialization of the project, and of the first application named general.&#10;Initialization of the database and the first model &#10;Test model InfosTechniques -  OK">
       <created>1600263088468</created>
@@ -421,7 +421,14 @@
       <option name="project" value="LOCAL" />
       <updated>1602155628764</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Added DataTable that changes the display of data tables. Preparing the new V2 skin with the installation of django-filter. Fixed a pagination bug.">
+      <created>1604325684155</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1604325684155</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -441,7 +448,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Create Client Model&#10;Test Client Model -  OK" />
     <MESSAGE value="Initialize Commande Model&#10;Test Commande Model -  FAIL" />
     <MESSAGE value="Create Commande Model&#10;Model Forfait modified -&gt; Automatic prix_ttc calculation&#10;Test Commande Model -  OK&#10;Test Forfait Model - OK" />
     <MESSAGE value="Initialize Evenement Model&#10;Test Evenement Model -  FAIL" />
@@ -466,7 +472,8 @@
     <MESSAGE value="Update CDN Bootstrap4" />
     <MESSAGE value="Update nb_jours field in Commande and update PDF with automatic field" />
     <MESSAGE value="Change name field in detail commande_detail.html and change context for clientList View" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change name field in detail commande_detail.html and change context for clientList View" />
+    <MESSAGE value="Added DataTable that changes the display of data tables. Preparing the new V2 skin with the installation of django-filter. Fixed a pagination bug." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added DataTable that changes the display of data tables. Preparing the new V2 skin with the installation of django-filter. Fixed a pagination bug." />
   </component>
   <component name="WindowStateProjectService">
     <state x="304" y="187" width="1071" height="790" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600456131297">
@@ -477,10 +484,10 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="528" y="268" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1602430928623" />
-    <state x="53" y="23" key="CommitChangelistDialog2" timestamp="1602155628643">
-      <screen x="0" y="0" width="1680" height="1050" />
+    <state x="-1566" y="60" key="CommitChangelistDialog2" timestamp="1604325935215">
+      <screen x="-1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="-1443" y="103" key="CommitChangelistDialog2/0.0.1680.1050/-1920.0.1920.1080@-1920.0.1920.1080" timestamp="1600435809206" />
+    <state x="-1566" y="60" key="CommitChangelistDialog2/0.0.1680.1050/-1920.0.1920.1080@-1920.0.1920.1080" timestamp="1604325935215" />
     <state x="53" y="23" key="CommitChangelistDialog2/0.0.1680.1050@0.0.1680.1050" timestamp="1602155628643" />
     <state x="341" y="183" key="SettingsEditor" timestamp="1601817346985">
       <screen x="0" y="0" width="1680" height="1050" />
@@ -490,10 +497,10 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state width="500" height="445" key="SwitcherDM/0.0.1680.1050@0.0.1680.1050" timestamp="1602504946755" />
-    <state x="440" y="265" key="Vcs.Push.Dialog.v2" timestamp="1602155630127">
-      <screen x="0" y="0" width="1680" height="1050" />
+    <state x="-1417" y="273" key="Vcs.Push.Dialog.v2" timestamp="1604325937149">
+      <screen x="-1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="-1417" y="273" key="Vcs.Push.Dialog.v2/0.0.1680.1050/-1920.0.1920.1080@-1920.0.1920.1080" timestamp="1600435812120" />
+    <state x="-1417" y="273" key="Vcs.Push.Dialog.v2/0.0.1680.1050/-1920.0.1920.1080@-1920.0.1920.1080" timestamp="1604325937149" />
     <state x="440" y="265" key="Vcs.Push.Dialog.v2/0.0.1680.1050@0.0.1680.1050" timestamp="1602155630127" />
     <state x="541" y="251" width="598" height="548" key="find.popup" timestamp="1602513098195">
       <screen x="0" y="0" width="1680" height="1050" />
