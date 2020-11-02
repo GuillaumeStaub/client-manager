@@ -1,6 +1,16 @@
 
 /*This feature allows you to hide/show order forms and change the button based on the state of the block. */
 $(document).ready(function(){
+    $('#tableClient').DataTable({
+            "order": [[ 2, "asc" ]],
+            "columnDefs":[
+   { "orderable": false, "targets": [0,1] }],
+        "paging":   false,
+        "ordering": true,
+        "info":     false,
+        "searching": false,
+
+    } );
 
   $("#buttonCollapse").click(function() {
       if ($("#CommandesCollapse").hasClass('show')){

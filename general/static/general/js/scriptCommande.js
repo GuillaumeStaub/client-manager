@@ -1,3 +1,8 @@
+//########################## AJAX FUNCTIONS ##########################
+/*
+This feature queries the server with Ajax to retrieve customer information and executes the associated
+callback and displays an error if necessary.
+ */
 function ajax_infos_clients(dataToSend, callback){
 
     $.ajax({
@@ -16,37 +21,10 @@ function ajax_infos_clients(dataToSend, callback){
     });
 
 };
-
-function loadInfosClient(data) {
-    $('#nom').val(data.nom);
-    $('#prenom').val(data.prenom);
-    $('#manege').val(data.manege);
-    $('#adresse').val(data.adresse);
-    $('#telephone').val(data.telephone);
-    $('#email').val(data.email);
-
-};
-
-$(document).ready(function() {
-    ajax_infos_clients($('#id_client').val(),loadInfosClient)
-})
-
-$('#id_client').change(function() {
-    ajax_infos_clients($('#id_client').val(),loadInfosClient)
-})
-
-
-function forfaitChangeData(data) {
-    $('#forfaitHelp').html(data.forfait_description);
-    document.querySelector('#prix_ht').value = data.forfait_price_ht;
-    document.querySelector('#prix_ttc').value = data.forfait_price_ttc;
-    document.querySelector('#taxe').value = data.forfait_taxe;
-    let nb_jours = document.querySelector('#id_nb_jours').value;
-    document.querySelector('#id_total_ht').value = (data.forfait_price_ht * nb_jours).toFixed(2)
-    document.querySelector('#id_total_ttc').value = calc_total(data.forfait_price_ht,data.forfait_taxe, nb_jours )
-
-};
-
+/*
+This feature queries the server with Ajax to retrieve forfait information and executes the associated
+callback and displays an error if necessary.
+ */
 function ajax_forfait(dataToSend, callback){
 
     $.ajax({
@@ -67,10 +45,66 @@ function ajax_forfait(dataToSend, callback){
 };
 
 
-if(document.querySelector('#id_forfait').value){
+//########################## CALLBACKS ##########################
+
+/*
+This feature is the callback associated with ajax_infos_clients. It simply displays
+ customer information in the intended fields.
+ */
+function loadInfosClient(data) {
+    $('#nom').val(data.nom);
+    $('#prenom').val(data.prenom);
+    $('#manege').val(data.manege);
+    $('#adresse').val(data.adresse);
+    $('#telephone').val(data.telephone);
+    $('#email').val(data.email);
+
+};
+/*
+This feature is the callback associated with ajax_forfait. It simply displays the package information in the planned
+fields and calculates the TTC prices and totals with the calc_total function.
+ */
+function forfaitChangeData(data) {
+    $('#forfaitHelp').html(data.forfait_description);
+    $('#prix_ht').val(data.forfait_price_ht);
+    $('#prix_ttc').val(data.forfait_price_ttc);
+    $('#taxe').val(data.forfait_taxe);
+    let nb_jours = $('#id_nb_jours').val();
+    $('#id_total_ht').val((data.forfait_price_ht * nb_jours).toFixed(2))
+    $('#id_total_ttc').val(calc_total(data.forfait_price_ht,data.forfait_taxe, nb_jours ))
+
+};
+
+//########################## WHEN DOM LOAD ##########################
+
+$(document).ready(function() {
+    ajax_infos_clients($('#id_client').val(),loadInfosClient); //Update clients infos when DOM is load
+    /*
+    Turns the tables into DataTable and allows for the integration of sorting.
+     */
+    $('#tableCommande').DataTable( {
+        "paging":   false,
+        "ordering": false,
+        "info":     false
+    } );
+    ////Update forfait infos when DOM is load
+    if(document.querySelector('#id_forfait').value){
         ajax_forfait(document.querySelector("#id_forfait").value,forfaitChangeData);
     }
 
+});
+
+//########################## EVENTS ##########################
+
+//Update clients infos if client input change value
+$('#id_client').change(function() {
+    ajax_infos_clients($('#id_client').val(),loadInfosClient)
+})
+
+/*
+Connects the plan and power that are dependent on each other.
+If the power changes the appropriate package is displayed and vice versa.
+ */
 $('#id_forfait').change(function(){
      ajax_forfait(document.querySelector("#id_forfait").value,forfaitChangeData);
      if($("#id_forfait").val()==='Forfait 1'){

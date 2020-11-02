@@ -1,11 +1,25 @@
 
-<table class = 'table table-hover mx-auto'>
+<script>
+    $(document).ready(function() {
+        $('#tableCommande').dataTable({
+            "order": [[ 4, "asc" ]],
+            "columnDefs":[
+   { "orderable": false, "targets": [0,1] }],
+        "paging":   false,
+        "ordering": true,
+        "info":     false,
+        "searching": false,
+
+    } );
+});
+</script>
+<table class = 'table table-hover mx-auto display' id="tableCommande" style="width:100%">
     <thead>
         <tr class="text-center">
-            <th scope="col"> </th>
-            <th scope="col"> </th>
+            <th> </th>
+            <th> </th>
             {% for field in field_names %}
-            <th scope="col">{{ field }}</th>
+            <th>{{ field }}</th>
             {% endfor %}
         </tr>
     </thead>
@@ -25,16 +39,16 @@
               <td>{{ commande.client.nom }}</td>
               <td>
                   {% if  commande.payee %}
-                      <input class="form-check-input" type="checkbox" value=""  checked disabled>
+                      <b>OUI</b>
                   {% else %}
-                      <input class="form-check-input" type="checkbox" value=""   disabled>
+                      <b>NON</b>
                   {% endif %}
               </td>
               <td>
                   {% if  commande.traite_ach %}
-                      <input class="form-check-input" type="checkbox" value="" checked disabled>
+                      <b>OUI</b>
                   {% else %}
-                      <input class="form-check-input" type="checkbox" value=""   disabled>
+                      <b>NON</b>
                   {% endif %}
               </td>
              <td>{{ commande.date_commande }}</td>
@@ -51,7 +65,7 @@
             <li class="page-item {% if not page_obj.has_previous %}
            disabled {% endif %} ">
                 <a class="page-link" href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% endif %}" aria-label="Previous">
-
+                    <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Previous</span>
                 </a>
             </li>

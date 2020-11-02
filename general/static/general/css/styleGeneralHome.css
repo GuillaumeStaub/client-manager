@@ -1,10 +1,16 @@
+/*
+For wide screens the search and add customer charts and controls icons are hidden
+ */
+
 #add_2{
     display: none;
 }
 #search_2{
     display: none;
 }
-
+/*
+Then the display is changed when the screens shrink.
+ */
 @media screen and (min-width: 200px) and (max-width: 940px) {
     #search_2{
     display: block;
@@ -28,4 +34,33 @@
     display: none;
 }
 
+}
+/*
+Changes sorting icons for customer and order tables.
+ */
+table.dataTable thead .sorting::after,
+table.dataTable thead .sorting_asc::after {
+    display:none;
+}
+
+table.dataTable thead .sorting_desc::after {
+    display:none;
+}
+
+table.dataTable thead .sorting {
+   background-image: url(https://datatables.net/media/images/sort_both.png);
+   background-repeat: no-repeat;
+   background-position: center right;
+}
+
+table.dataTable thead .sorting_asc {
+   background-image: url(https://datatables.net/media/images/sort_asc.png);
+   background-repeat: no-repeat;
+   background-position: center right;
+}
+
+table.dataTable thead .sorting_desc {
+   background-image: url(https://datatables.net/media/images/sort_desc.png);
+   background-repeat: no-repeat;
+   background-position: center right;
 }

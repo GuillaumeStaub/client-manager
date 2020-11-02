@@ -23,6 +23,8 @@ whitenoise = "*"
 dj-database-url = "*"
 python-dotenv = "*"
 django-easy-pdf = "*"
+djangp-filter = "*"
+django-filter = "*"
 
 [requires]
 python_version = "3.7"
