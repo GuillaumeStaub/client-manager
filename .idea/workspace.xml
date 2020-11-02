@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="85dc198e-e2a5-4c75-9cf2-df3638d3a441" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/general/templates/general/statistiques.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pipfile" beforeDir="false" afterPath="$PROJECT_DIR$/Pipfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client_manager/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/client_manager/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/general/static/general/css/styleGeneralHome.css" beforeDir="false" afterPath="$PROJECT_DIR$/general/static/general/css/styleGeneralHome.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/general/static/general/js/scriptCommande.js" beforeDir="false" afterPath="$PROJECT_DIR$/general/static/general/js/scriptCommande.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/general/static/general/js/scriptGeneral.js" beforeDir="false" afterPath="$PROJECT_DIR$/general/static/general/js/scriptGeneral.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/general/templates/general/commandes_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/general/templates/general/commandes_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/general/templates/general/table_clients.html" beforeDir="false" afterPath="$PROJECT_DIR$/general/templates/general/table_clients.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/general/templates/general/table_commandes.html" beforeDir="false" afterPath="$PROJECT_DIR$/general/templates/general/table_commandes.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/general/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/general/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+        <option value="Python Script" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JupyterTrust" id="477cb012-73ca-4f56-9f15-169e6b8ec6a6" />
+  <component name="ProjectId" id="1haM2VKZrMypHIgnDxKGY1MBu7b" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/general/templates/general" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/general/static/general/css" />
+      <recent name="$PROJECT_DIR$/static/css" />
+      <recent name="$PROJECT_DIR$/general/static/general" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/general/templates/general" />
+      <recent name="$PROJECT_DIR$/users" />
+      <recent name="$PROJECT_DIR$/users/templates/users" />
+      <recent name="$PROJECT_DIR$/static/images" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="client_manager" type="Python.DjangoServer" factoryName="Django server">
+      <module name="client_manager" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="85dc198e-e2a5-4c75-9cf2-df3638d3a441" name="Default Changelist" comment="" />
+      <created>1600244543936</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600244543936</updated>
+      <workItem from="1600244552611" duration="32727000" />
+      <workItem from="1600454564847" duration="756000" />
+      <workItem from="1600456082803" duration="22363000" />
+      <workItem from="1600980370277" duration="65000" />
+      <workItem from="1600980460797" duration="16834000" />
+      <workItem from="1601311651064" duration="119116000" />
+      <workItem from="1602508988030" duration="3888000" />
+      <workItem from="1604324865070" duration="488000" />
+    </task>
+    <task id="LOCAL-00001" summary="Initialization of the project, and of the first application named general.&#10;Initialization of the database and the first model &#10;Test model InfosTechniques -  OK">
+      <created>1600263088468</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1600263088468</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Initialize Periode Model&#10;Test model InfosTechniques -  FAIL">
+      <created>1600268207892</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1600268207892</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Create Saison Model replaces Periode Model&#10;Test model Saison -  OK">
+      <created>1600332360672</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1600332360672</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Initialize Forfait Model&#10;Test model Saison -  FAIL">
+      <created>1600334192994</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1600334192994</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Create Forfait Model&#10;Test Forfait Model -  OK">
+      <created>1600334700352</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1600334700352</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Initialize CLient Model&#10;Test Client Model -  FAIL">
+      <created>1600338803250</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1600338803250</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Create Client Model&#10;Test Client Model -  OK">
+      <created>1600339565124</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1600339565124</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Initialize Commande Model&#10;Test Commande Model -  FAIL">
+      <created>1600430006641</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1600430006641</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Create Commande Model&#10;Model Forfait modified -&gt; Automatic prix_ttc calculation&#10;Test Commande Model -  OK&#10;Test Forfait Model - OK">
+      <created>1600435809342</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1600435809342</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Initialize Evenement Model&#10;Test Evenement Model -  FAIL">
+      <created>1600456692309</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1600456692309</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Create Evenement Model&#10;Commande Model modified with FK to Evenement&#10;Test Evenement Model -  OK&#10;Test Commande Model - OK">
+      <created>1600464140650</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1600464140650</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Creating the first view that shows all customers, and additional information about orders. The view is a ListView.&#10;Setting up three template, base at the root of the project, home that manages the home page and table-clients that will allow to do research via Ajax. &#10;Added Bootstrap locally for performance and query overload issues. &#10;Added the logo and a bit of CSS for small screens. &#10;&#10;Test HomeView - OK">
+      <created>1600806541555</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1600806541555</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Create the CreateClientView view that allows you to create a customer and its potential commands. &#10;Added some scripts to perform automatic calculations including on HT and TTC prices. &#10;Setting up the template that displays the client's creation forms.&#10;Improved home and table_client template. &#10;&#10;Tests CreateClientView - OK">
+      <created>1601310652401</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1601310652401</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Create the DeleteClientView view that removes a customer. Added the button in the client table template that redirects to the Delete view. &#10;&#10;&#10;Tests DeleteClientView - OK">
+      <created>1601328186946</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1601328186946</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Created the UpdateClientView view that updates a customer and their orders.&#10;Changing templates to adapt them to new features. &#10;Added javascript to make creative forms dynamic and update customers.&#10;Test UpdateClientView - OK">
+      <created>1601718909236</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1601718909236</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Created the AjaxForfait view that allows you to retrieve the information from a plan and display it in the DOM without reloading the page. &#10;Minor bug fixes.&#10;&#10;Test AjaxForfait - OK">
+      <created>1601728041445</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1601728041445</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Creating the Search Client view that allows with ajax to search for a customer in the database. &#10;Created the CommandPDFView view that displays a summary of an order on a PDF. &#10;Added STATIC_ROOT to manage paths to images in the PDF. &#10;Installing new outbuildings to manage the CommandPDFView view. &#10;Tests SearchClient - OK &#10;CommandPDFView Tests - FAIL">
+      <created>1601815524352</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1601815524352</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Creating the Users app that manages users (authentication, disconnection...)&#10;Added Login and Logout views that connect and disconnect users. &#10;Added template that allows authentication. &#10;Changing the PDF template to add the official footnote. &#10;Tests UsersLogin - OK&#10;Tests LogoutView - OK&#10;CommandPDFView Tests - FAIL">
+      <created>1601821474599</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1601821474599</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Added two new fields in Command. Changing the tests to match the login_required of each view. &#10;Changing the template update_client, adding a print button for commands.  &#10;Tests General APP - OK&#10;Tests Users APP - OK&#10;CommandPDFView Tests - FAIL">
+      <created>1601827474109</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1601827474109</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Project completion for deployment&#10;CommandPDFView Tests - FAIL">
+      <created>1601838244824</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1601838244824</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Bug deploy fixed">
+      <created>1601840293006</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1601840293006</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Bug deploy fixed">
+      <created>1601840521151</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1601840521151</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Bug deploy fixed">
+      <created>1601841398414</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1601841398414</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Bug deploy fixed">
+      <created>1601841629731</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1601841629731</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Added features to templates. Changing the redirect in setttings.py">
+      <created>1601845095215</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1601845095215</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Added a new template to access the order list. Added a new view to show commands. &#10;Changing the model for Season (verbose_plural_name) and adding fields to Command. &#10;SeasonModel Tests - OK&#10;CommandModel Tests - OK&#10;CommandView Tests - OK">
+      <created>1601887748245</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1601887748245</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Added a view to see the detail of an order. Creating the template. &#10;Minor bug fixes&#10;CommandDetailView Tests - OK">
+      <created>1601906094703</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1601906094703</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Added the CommandUpdateView and CommandCreateView view, which allow you to update and create an order, respectively.&#10;Creating both templates.&#10;Changing the OrderDetail view.&#10;Added a feature in PDF.&#10;Added favicon.&#10;Creating a script.js for Command views.&#10;Added AJAX features to check an order as paid and/or processed.&#10;Search function for commands. Customer information recovery function.&#10;Tests CommandeUpdateView - FAIL&#10;Tests ajax_infos_clientt - FAIL&#10;Tests CommandeCreateView - FAIL&#10;Test commande_search_view - FAIL">
+      <created>1601987886580</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1601987886580</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Bug Pipfile fixed&#10;Tests CommandeUpdateView - FAIL&#10;Tests ajax_infos_clientt - FAIL&#10;Tests CommandeCreateView - FAIL&#10;Test commande_search_view - FAIL">
+      <created>1601988225060</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1601988225060</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Bug Pipfile fixed&#10;Tests CommandeUpdateView - FAIL&#10;Tests ajax_infos_clientt - FAIL&#10;Tests CommandeCreateView - FAIL&#10;Test commande_search_view - FAIL">
+      <created>1601988557689</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1601988557689</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Bug fixed">
+      <created>1602059357054</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1602059357054</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Bug fixed">
+      <created>1602059854462</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1602059854462</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Bug fixed">
+      <created>1602060788350</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1602060788350</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Bug fixed">
+      <created>1602060903544</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1602060903544</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Bug jaavscript fixed">
+      <created>1602076471220</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1602076471220</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Bug jaavscript fixed">
+      <created>1602077304171</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1602077304171</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Bug jaavscript fixed">
+      <created>1602078037817</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1602078037817</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Update CDN Bootstrap4">
+      <created>1602101396796</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1602101396796</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Update CDN Bootstrap4">
+      <created>1602103792891</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1602103792891</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Update CDN Bootstrap4">
+      <created>1602139091570</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1602139091570</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Update nb_jours field in Commande and update PDF with automatic field">
+      <created>1602151653504</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1602151653504</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Change name field in detail commande_detail.html and change context for clientList View">
+      <created>1602155628764</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1602155628764</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Create Client Model&#10;Test Client Model -  OK" />
+    <MESSAGE value="Initialize Commande Model&#10;Test Commande Model -  FAIL" />
+    <MESSAGE value="Create Commande Model&#10;Model Forfait modified -&gt; Automatic prix_ttc calculation&#10;Test Commande Model -  OK&#10;Test Forfait Model - OK" />
+    <MESSAGE value="Initialize Evenement Model&#10;Test Evenement Model -  FAIL" />
+    <MESSAGE value="Create Evenement Model&#10;Commande Model modified with FK to Evenement&#10;Test Evenement Model -  OK&#10;Test Commande Model - OK" />
+    <MESSAGE value="Creating the first view that shows all customers, and additional information about orders. The view is a ListView.&#10;Setting up three template, base at the root of the project, home that manages the home page and table-clients that will allow to do research via Ajax. &#10;Added Bootstrap locally for performance and query overload issues. &#10;Added the logo and a bit of CSS for small screens. &#10;&#10;Test HomeView - OK" />
+    <MESSAGE value="Create the CreateClientView view that allows you to create a customer and its potential commands. &#10;Added some scripts to perform automatic calculations including on HT and TTC prices. &#10;Setting up the template that displays the client's creation forms.&#10;Improved home and table_client template. &#10;&#10;Tests CreateClientView - OK" />
+    <MESSAGE value="Create the DeleteClientView view that removes a customer. Added the button in the client table template that redirects to the Delete view. &#10;&#10;&#10;Tests DeleteClientView - OK" />
+    <MESSAGE value="Created the UpdateClientView view that updates a customer and their orders.&#10;Changing templates to adapt them to new features. &#10;Added javascript to make creative forms dynamic and update customers.&#10;Test UpdateClientView - OK" />
+    <MESSAGE value="Created the AjaxForfait view that allows you to retrieve the information from a plan and display it in the DOM without reloading the page. &#10;Minor bug fixes.&#10;&#10;Test AjaxForfait - OK" />
+    <MESSAGE value="Creating the Search Client view that allows with ajax to search for a customer in the database. &#10;Created the CommandPDFView view that displays a summary of an order on a PDF. &#10;Added STATIC_ROOT to manage paths to images in the PDF. &#10;Installing new outbuildings to manage the CommandPDFView view. &#10;Tests SearchClient - OK &#10;CommandPDFView Tests - FAIL" />
+    <MESSAGE value="Creating the Users app that manages users (authentication, disconnection...)&#10;Added Login and Logout views that connect and disconnect users. &#10;Added template that allows authentication. &#10;Changing the PDF template to add the official footnote. &#10;Tests UsersLogin - OK&#10;Tests LogoutView - OK&#10;CommandPDFView Tests - FAIL" />
+    <MESSAGE value="Added two new fields in Command. Changing the tests to match the login_required of each view. &#10;Changing the template update_client, adding a print button for commands.  &#10;Tests General APP - OK&#10;Tests Users APP - OK&#10;CommandPDFView Tests - FAIL" />
+    <MESSAGE value="Project completion for deployment&#10;CommandPDFView Tests - FAIL" />
+    <MESSAGE value="Bug deploy fixed" />
+    <MESSAGE value="Added features to templates. Changing the redirect in setttings.py" />
+    <MESSAGE value="Added a new template to access the order list. Added a new view to show commands. &#10;Changing the model for Season (verbose_plural_name) and adding fields to Command. &#10;SeasonModel Tests - OK&#10;CommandModel Tests - OK&#10;CommandView Tests - OK" />
+    <MESSAGE value="Added a view to see the detail of an order. Creating the template. &#10;Minor bug fixes&#10;CommandDetailView Tests - OK" />
+    <MESSAGE value="Added the CommandUpdateView and CommandCreateView view, which allow you to update and create an order, respectively.&#10;Creating both templates.&#10;Changing the OrderDetail view.&#10;Added a feature in PDF.&#10;Added favicon.&#10;Creating a script.js for Command views.&#10;Added AJAX features to check an order as paid and/or processed.&#10;Search function for commands. Customer information recovery function.&#10;Tests CommandeUpdateView - FAIL&#10;Tests ajax_infos_clientt - FAIL&#10;Tests CommandeCreateView - FAIL&#10;Test commande_search_view - FAIL" />
+    <MESSAGE value="Bug Pipfile fixed&#10;Tests CommandeUpdateView - FAIL&#10;Tests ajax_infos_clientt - FAIL&#10;Tests CommandeCreateView - FAIL&#10;Test commande_search_view - FAIL" />
+    <MESSAGE value="Bug fixed" />
+    <MESSAGE value="Bug jaavscript fixed" />
+    <MESSAGE value="Update CDN Bootstrap4" />
+    <MESSAGE value="Update nb_jours field in Commande and update PDF with automatic field" />
+    <MESSAGE value="Change name field in detail commande_detail.html and change context for clientList View" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change name field in detail commande_detail.html and change context for clientList View" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="304" y="187" width="1071" height="790" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600456131297">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="304" y="187" width="1071" height="790" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1600456131297" />
+    <state x="528" y="268" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1602430928623">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="528" y="268" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1602430928623" />
+    <state x="53" y="23" key="CommitChangelistDialog2" timestamp="1602155628643">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="-1443" y="103" key="CommitChangelistDialog2/0.0.1680.1050/-1920.0.1920.1080@-1920.0.1920.1080" timestamp="1600435809206" />
+    <state x="53" y="23" key="CommitChangelistDialog2/0.0.1680.1050@0.0.1680.1050" timestamp="1602155628643" />
+    <state x="341" y="183" key="SettingsEditor" timestamp="1601817346985">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="341" y="183" key="SettingsEditor/0.0.1680.1050@0.0.1680.1050" timestamp="1601817346985" />
+    <state width="500" height="445" key="SwitcherDM" timestamp="1602504946755">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="500" height="445" key="SwitcherDM/0.0.1680.1050@0.0.1680.1050" timestamp="1602504946755" />
+    <state x="440" y="265" key="Vcs.Push.Dialog.v2" timestamp="1602155630127">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="-1417" y="273" key="Vcs.Push.Dialog.v2/0.0.1680.1050/-1920.0.1920.1080@-1920.0.1920.1080" timestamp="1600435812120" />
+    <state x="440" y="265" key="Vcs.Push.Dialog.v2/0.0.1680.1050@0.0.1680.1050" timestamp="1602155630127" />
+    <state x="541" y="251" width="598" height="548" key="find.popup" timestamp="1602513098195">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="541" y="251" width="598" height="548" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1602513098195" />
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1601741890002">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="-1343" y="240" width="766" height="696" key="search.everywhere.popup/0.0.1680.1050/-1920.0.1920.1080@-1920.0.1920.1080" timestamp="1600429459767" />
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1601741890002" />
+  </component>
+</project>
